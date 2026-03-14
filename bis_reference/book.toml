@@ -1,0 +1,8 @@
+[book]
+title = "BIS Reference"
+authors = ["ubiquisoft"]
+language = "en"
+
+[output.html]
+no-section-label = true
+

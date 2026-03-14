@@ -1,0 +1,41 @@
+{
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
+  "grammars": [
+    {
+      "name": "bis",
+      "camelcase": "BIS",
+      "title": "Business Information Systems",
+      "scope": "source.bis",
+      "file-types": [
+        "bis"
+      ],
+      "injection-regex": "^bis$",
+      "class-name": "TreeSitterBis"
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0",
+    "license": "MIT",
+    "description": "Unisys Business Information Systems, also known as MAPPER.",
+    "authors": [
+      {
+        "name": "Alexander Durham",
+        "email": "wvaviator@gmail.com",
+        "url": "https://www.wvaviator.com"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/wvaviator/tree-sitter-bis"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": false,
+    "java": false,
+    "node": true,
+    "python": false,
+    "rust": true,
+    "swift": false,
+    "zig": false
+  }
+}
