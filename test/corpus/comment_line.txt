@@ -1,0 +1,13 @@
+==============
+Comment Line
+==============
+
+@. Pack, Center, Uppercase
+
+---
+
+(source_file
+  (statement
+    (stmt_prefix)
+    (stmt_terminator)
+    (comment)))
