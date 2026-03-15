@@ -5,46 +5,6 @@
     "fields": {}
   },
   {
-    "type": "ldv",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "character",
-          "named": true
-        },
-        {
-          "type": "ldv_options",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "variable",
-          "named": true
-        },
-        {
-          "type": "variable_type",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "ldv_options",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "source_file",
     "named": true,
     "root": true,
@@ -69,11 +29,39 @@
       "required": true,
       "types": [
         {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "character",
+          "named": true
+        },
+        {
           "type": "comment",
           "named": true
         },
         {
-          "type": "ldv",
+          "type": "env_variable",
+          "named": true
+        },
+        {
+          "type": "global_variable",
+          "named": true
+        },
+        {
+          "type": "named_variable",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "numbered_variable",
+          "named": true
+        },
+        {
+          "type": "options",
           "named": true
         },
         {
@@ -83,28 +71,26 @@
         {
           "type": "stmt_terminator",
           "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "substring",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
         }
       ]
     }
   },
   {
-    "type": "string",
+    "type": "substring",
     "named": true,
     "fields": {}
-  },
-  {
-    "type": "variable",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "variable_type",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "'",
-    "named": false
   },
   {
     "type": "(",
@@ -119,7 +105,7 @@
     "named": false
   },
   {
-    "type": "<",
+    "type": "-",
     "named": false
   },
   {
@@ -127,15 +113,35 @@
     "named": false
   },
   {
-    "type": ">",
-    "named": false
+    "type": "call",
+    "named": true
   },
   {
     "type": "character",
     "named": true
   },
   {
+    "type": "env_variable",
+    "named": true
+  },
+  {
+    "type": "global_variable",
+    "named": true
+  },
+  {
+    "type": "named_variable",
+    "named": true
+  },
+  {
     "type": "number",
+    "named": true
+  },
+  {
+    "type": "numbered_variable",
+    "named": true
+  },
+  {
+    "type": "options",
     "named": true
   },
   {
@@ -144,6 +150,14 @@
   },
   {
     "type": "stmt_terminator",
+    "named": true
+  },
+  {
+    "type": "string",
+    "named": true
+  },
+  {
+    "type": "type",
     "named": true
   }
 ]

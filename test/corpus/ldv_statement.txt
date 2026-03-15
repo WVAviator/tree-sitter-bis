@@ -1,5 +1,5 @@
 ==============
-Statement Line
+LDV Statement
 ==============
 
 @    LDV,P <run>,<title> LDV,CU <rundesc>s40=<title> . Pack, Center, Uppercase
@@ -9,17 +9,15 @@ Statement Line
 (source_file
   (statement
     (stmt_prefix)
-    (ldv
-      (ldv_options)
-      (variable)
-      (variable)
-    )
-    (ldv
-      (ldv_options)
-      (variable)
-      (variable_type)
-      (variable)
-    )
+      (call)
+      (options)
+      (named_variable)
+      (named_variable)
+      (call)
+      (options)
+      (named_variable)
+      (type)
+      (named_variable)
     (stmt_terminator)
     (comment)
   )
