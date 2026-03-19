@@ -1,8 +1,9 @@
 ==============
-LDV Statement
+Line Separator
 ==============
 
-@    LDV,P <run>,<title> LDV,CU <rundesc>s40=<title> . Pack, Center, Uppercase
+@    LDV,P <run>,<title> \ Pack
+     LDV,CU <rundesc>s40=<title> . Center, Uppercase
 
 ---
 
@@ -15,6 +16,7 @@ LDV Statement
         (named_variable)
         (named_variable)
       )
+      (comment)
       (ldv 
         (call)
         (options)

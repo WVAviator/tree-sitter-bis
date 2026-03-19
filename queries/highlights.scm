@@ -3,6 +3,9 @@
 (comment) @comment
 "=" @operator
 "," @punctuation.delimiter
-(ldv_options) @attribute
-(variable) @variable
+(options) @attribute
+(named_variable) @variable
+(global_variable) @variable
+(env_variable) @variable
+(numbered_variable) @variable
 (call) @keyword
