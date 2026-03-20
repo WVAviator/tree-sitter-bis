@@ -146,6 +146,7 @@ export default grammar({
     substring: ($) => seq("(", /\d+/, "-", /\d+/, ")"),
     array_index: ($) => token(seq("[", /\d*/, "]")),
 
+    // Used anywhere a variable's type can be defined or redefined
     _variable_definition: ($) =>
       seq(
         choice(
@@ -155,6 +156,19 @@ export default grammar({
           $.numbered_variable,
         ),
         optional($.type),
+        optional($.array_index),
+        optional($.substring),
+      ),
+
+    // Used anywhere the variable's type must already be known at this point
+    _variable_value: ($) =>
+      seq(
+        choice(
+          $.named_variable,
+          $.global_variable,
+          $.env_variable,
+          $.numbered_variable,
+        ),
         optional($.array_index),
         optional($.substring),
       ),
@@ -169,29 +183,30 @@ export default grammar({
         $.stmt_terminator,
         $.comment,
       ),
-    _stmt_contents: ($) => choice($.ldv),
+
+    _stmt_contents: ($) => choice($.ldv, $.gto),
 
     // Literals
+
+    keyword: ($) => token(/[A-Za-z]+/),
 
     // Strings can be enclosed by single or double quotes.
     string: ($) =>
       token(choice(seq("'", /[^']*/, "'"), seq(/"/, /[^"]*/, /"/))),
 
-    // Intended for use in variable indexing - not as a value
-    integer: ($) => token(/\d+/),
-
     // Integer, decimal, scientific notation, or combination
-    number: ($) =>
-      token(choice(/\d+/, /\d*\.\d+/, /\d+[Ee]\-?\d+/, /\d*\.\d+[Ee]\-?\d+/)),
+    _number: ($) => choice($.integer, $.float),
+    integer: ($) => token(choice(/\d+/, /\d+[Ee]\-?\d+/)),
+    float: ($) => token(choice(/\d*\.\d+/, /\d*\.\d+[Ee]\-?\d+/)),
 
     // Statement Parts
 
     _value_definition: ($) =>
-      choice($.string, $.number, $._variable_definition),
+      choice($.string, $._number, $._variable_definition),
     _variable_assignment: ($) =>
       seq($._variable_definition, "=", $._value_definition),
 
-    delimiter_definition: ($) => token(seq("(", /./, ")")),
+    delimiter: ($) => token(seq("(", /./, ")")),
 
     // Commands
 
@@ -205,19 +220,47 @@ export default grammar({
           seq(
             $._variable_assignment,
             ",",
-            $.integer,
-            optional($.delimiter_definition),
+            seq(/\d+/, optional($.delimiter)),
             repeat(
               seq(
                 ",",
                 $._variable_assignment,
                 ",",
-                $.integer,
-                optional($.delimiter_definition),
+                /\d+/,
+                optional($.delimiter),
               ),
             ),
           ),
         ),
       ),
+
+    // GTO (reference statments/GTO.md)
+
+    gto: ($) =>
+      seq(
+        alias(/[Gg][Tt][Oo]/, $.call),
+        choice(
+          $.label,
+          $._end,
+          seq(
+            $._end,
+            ",",
+            $._status_code,
+            optional(
+              seq(",", $._status_code, optional(seq(",", $._status_code))),
+            ),
+          ),
+          seq(
+            $._lin,
+            optional(choice("+", "-")),
+            choice($._variable_value, $.integer),
+          ),
+          seq($._rpx, $._r),
+        ),
+      ),
+    _end: ($) => alias(/[Ee][Nn][Dd]/, $.keyword),
+    _lin: ($) => alias(/[Ll][Ii][Nn]/, $.keyword),
+    _rpx: ($) => alias(/[Rr][Pp][Xx]/, $.keyword),
+    _status_code: ($) => choice($.integer, $._variable_value),
   },
 });

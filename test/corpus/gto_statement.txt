@@ -1,0 +1,52 @@
+==============
+GTO Statement
+==============
+
+@    GTO END,<recs> .           If linked, return to caller
+@    GTO RPX 100 .                                  Go to exit routine
+@    GTO 0020 .                                     Return to entry screen
+@    GTO LIN2 .
+
+---
+
+(source_file
+  (statement
+    (stmt_prefix)
+    (gto
+      (call)
+      (keyword)
+      (named_variable)
+    )
+    (stmt_terminator)
+    (comment)
+  )
+  (statement
+    (stmt_prefix)
+    (gto
+      (call)
+      (keyword)
+    )
+    (stmt_terminator)
+    (comment)
+  )
+  (statement
+    (stmt_prefix)
+    (gto
+      (call)
+      (label)
+    )
+    (stmt_terminator)
+    (comment)
+  )
+  (statement
+    (stmt_prefix)
+    (gto
+      (call)
+      (keyword)
+      (integer)
+    )
+    (stmt_terminator)
+    (comment)
+  )
+)
+

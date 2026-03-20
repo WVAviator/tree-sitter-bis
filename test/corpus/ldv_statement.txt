@@ -3,6 +3,7 @@ LDV Statement
 ==============
 
 @    LDV,P <run>,<title> LDV,CU <rundesc>s40=<title> . Pack, Center, Uppercase
+@    LDV,Q <line>a4=<s>,3(|) .                      Line number
 
 ---
 
@@ -22,6 +23,19 @@ LDV Statement
         (type)
         (named_variable)
       )
+    (stmt_terminator)
+    (comment)
+  )
+  (statement
+    (stmt_prefix)
+    (ldv
+      (call)
+      (options)
+      (named_variable)
+      (type)
+      (named_variable)
+      (delimiter)
+    )
     (stmt_terminator)
     (comment)
   )
