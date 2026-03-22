@@ -17,6 +17,21 @@ function ci(str) {
   );
 }
 
+/**
+ * Works like seq, splits each arg by a delim, and stops matching as soon as a match is not found.
+ */
+const param_list = (delim, ...args) => {
+  if (args.length === 1) return args[0];
+  return seq(
+    args[0],
+    optional(seq(delim, param_list(delim, ...args.slice(1)))),
+  );
+};
+
+const repeat_params = (delim, arg) => {
+  return seq(arg, repeat(seq(token.immediate(delim), arg)));
+};
+
 /// <reference types="tree-sitter-cli/dsl" />
 // @ts-check
 
@@ -61,17 +76,13 @@ export default grammar({
     //
     // Always enclose report, drawer, and cabinet names in apostrophes (`'`) in statements.
 
-    report: ($) =>
-      choice(
-        seq($._c, ",", $._d, optional(seq(",", $._r))),
-        seq($._cdr_name, ",", $._d, optional(seq(",", $._r))),
-        seq($._cdr_name, ",", $._r),
-        $._cdr_name,
-      ),
-    _cdr_name: ($) => token(seq("'", /[^']+/, "'")),
-    _c: ($) => /\d{1,3}/,
-    _d: ($) => /[A-Fa-f]/,
-    _r: ($) => /\d{1,3}/,
+    data_name: ($) => token(seq("'", /[^']+/, "'")),
+    cabinet: ($) => token(/\d{1,3}/),
+    drawer: ($) => token(/[A-Fa-f]/),
+    report: ($) => token(/\d{1,3}/),
+    _named_cabinet: ($) => field("named_cabinet", $.data_name),
+    _named_drawer: ($) => prec(1, field("named_drawer", $.data_name)),
+    _named_report: ($) => prec(2, field("named_report", $.data_name)),
 
     // `options` Options specifying how to perform the operation.
     // These vary based on call, but can be any number of alpha characters
@@ -125,13 +136,13 @@ export default grammar({
     // @srh,'report2b' '' 2-2,5-1,15-9,30-1 |,,8,,1/r,,8,,4/|,sh,,blackbox0 .
     //
     //
-    parameter: ($) =>
-      token(
-        choice(
-          // No clue if this is right
-          seq(/[A-Za-z0-9@]+/, optional(/'\/'/), optional(/\/[A-Za-z]?/)),
-          seq(/'[A-Za-z0-9@]+\/?'/, optional(/\/[A-Za-z]?/)),
-        ),
+    parameter: ($) => token(choice(/[A-Za-z0-9@]+/, seq("'", /[^']+/, "'"))),
+
+    parameter_list: ($) =>
+      seq(
+        optional($.line_type),
+        ",",
+        repeat_params(",", optional($.parameter)),
       ),
 
     // Variables (See defining_variables.md)
@@ -143,8 +154,8 @@ export default grammar({
     numbered_variable: ($) => token(seq(/[Vv]/, /\d{1,3}/)),
 
     type: ($) => token(seq(/[afhiosAFHIOS]/, /\d{1,3}/, optional(/\.\d{1,2}/))),
-    substring: ($) => seq("(", /\d+/, "-", /\d+/, ")"),
-    array_index: ($) => token(seq("[", /\d*/, "]")),
+    substring: ($) => seq("(", $.integer, "-", $.integer, ")"),
+    array_index: ($) => seq("[", optional($.integer), "]"),
 
     // Used anywhere a variable's type can be defined or redefined
     _variable_definition: ($) =>
@@ -173,18 +184,16 @@ export default grammar({
         optional($.substring),
       ),
 
-    stmt_terminator: (_) => ".",
+    stmt_terminator: (_) => token("."),
 
     statement: ($) =>
       seq(
         $.stmt_prefix,
-        optional($.label),
+        optional(seq($.label, ":")),
         repeat($._stmt_contents),
         $.stmt_terminator,
         $.comment,
       ),
-
-    _stmt_contents: ($) => choice($.ldv, $.gto),
 
     // Literals
 
@@ -193,11 +202,14 @@ export default grammar({
     // Strings can be enclosed by single or double quotes.
     string: ($) =>
       token(choice(seq("'", /[^']*/, "'"), seq(/"/, /[^"]*/, /"/))),
+    // Single quote strings are used in some places where double quotes can't
+    sq_string: ($) => token(seq("'", /[^']*/, "'")),
 
     // Integer, decimal, scientific notation, or combination
     _number: ($) => choice($.integer, $.float),
     integer: ($) => token(choice(/\d+/, /\d+[Ee]\-?\d+/)),
     float: ($) => token(choice(/\d*\.\d+/, /\d*\.\d+[Ee]\-?\d+/)),
+    character: ($) => token(/./),
 
     // Statement Parts
 
@@ -205,10 +217,20 @@ export default grammar({
       choice($.string, $._number, $._variable_definition),
     _variable_assignment: ($) =>
       seq($._variable_definition, "=", $._value_definition),
-
-    delimiter: ($) => token(seq("(", /./, ")")),
+    _integer_value: ($) =>
+      choice(
+        $.integer,
+        choice(
+          $.named_variable,
+          $.global_variable,
+          $.env_variable,
+          $.numbered_variable,
+        ),
+      ),
 
     // Commands
+
+    _stmt_contents: ($) => choice($.ldv, $.gto, $.srh, $.sru),
 
     ldv: ($) =>
       seq(
@@ -220,19 +242,21 @@ export default grammar({
           seq(
             $._variable_assignment,
             ",",
-            seq(/\d+/, optional($.delimiter)),
+            seq($.integer, optional($._delimiter)),
             repeat(
               seq(
                 ",",
                 $._variable_assignment,
                 ",",
-                /\d+/,
-                optional($.delimiter),
+                $.integer,
+                optional($._delimiter),
               ),
             ),
           ),
         ),
       ),
+
+    _delimiter: ($) => seq("(", $.character, ")"),
 
     // GTO (reference statments/GTO.md)
 
@@ -255,12 +279,95 @@ export default grammar({
             optional(choice("+", "-")),
             choice($._variable_value, $.integer),
           ),
-          seq($._rpx, $._r),
+          seq($._rpx, $.report),
         ),
       ),
     _end: ($) => alias(/[Ee][Nn][Dd]/, $.keyword),
     _lin: ($) => alias(/[Ll][Ii][Nn]/, $.keyword),
     _rpx: ($) => alias(/[Rr][Pp][Xx]/, $.keyword),
     _status_code: ($) => choice($.integer, $._variable_value),
+
+    // SRH (Search) and SRU (Search Update)
+
+    srh: ($) =>
+      seq(
+        alias(/[Ss][Rr][Hh]/, $.call),
+        ",",
+        choice(
+          $._named_report,
+          seq($._named_drawer, ",", $.report),
+          param_list(
+            ",",
+            choice($.cabinet, $._named_cabinet),
+            choice($.drawer, $._named_drawer),
+            optional(choice($.report, $._named_report)),
+            optional($.integer),
+            optional($.integer),
+            $.label,
+          ),
+        ),
+        $._srh_options,
+        repeat_params(",", $.field),
+        repeat_params("/", $.parameter_list),
+        param_list(
+          ",",
+          optional($._variable_value),
+          optional($._variable_value),
+          $._variable_value,
+        ),
+      ),
+
+    // Identical to SRH
+    sru: ($) =>
+      seq(
+        alias(/[Ss][Rr][Uu]/, $.call),
+        ",",
+        choice(
+          $._named_report,
+          seq($._named_drawer, ",", $.report),
+          param_list(
+            ",",
+            choice($.cabinet, $._named_cabinet),
+            choice($.drawer, $._named_drawer),
+            optional(choice($.report, $._named_report)),
+            optional($.integer),
+            optional($.integer),
+            $.label,
+          ),
+        ),
+        $._srh_options,
+        repeat_params(",", $.field),
+        repeat_params("/", $.parameter_list),
+        param_list(
+          ",",
+          optional($._variable_value),
+          optional($._variable_value),
+          $._variable_value,
+        ),
+      ),
+
+    _srh_options: ($) =>
+      alias(
+        repeat1(
+          choice(
+            /[AaDdFfHhNnPpSs@/]/,
+            seq(/[BbQq]/, optional(seq("(", $._integer_value, ")"))),
+            seq(/[Ee]/, "(", $._integer_value, ")"),
+            seq(/[Cc]/, "(", /[FfLlSs]/, ")"),
+            seq(/[LlTtUuYy@]/, optional(seq("(", $.line_type, ")"))),
+            seq(
+              /[Rr]/,
+              repeat_params(
+                ",",
+                choice(
+                  $._integer_value,
+                  seq($._integer_value, "-", $._integer_value),
+                ),
+              ),
+            ),
+          ),
+        ),
+        $.options,
+      ),
   },
 });

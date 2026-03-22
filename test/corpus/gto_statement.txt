@@ -25,6 +25,7 @@ GTO Statement
     (gto
       (call)
       (keyword)
+      (report)
     )
     (stmt_terminator)
     (comment)

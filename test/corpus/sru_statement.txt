@@ -1,0 +1,31 @@
+==============
+SRU Statement
+==============
+
+@010:sru,20,b,,,,100 adhrv1-5000 2-4 ,1234 ,,v1 .
+
+---
+
+(source_file
+  (statement
+    (stmt_prefix)
+    (label)
+    (sru
+      (call)
+      (cabinet)
+      (drawer)
+      (label)
+
+      (options (numbered_variable) (integer))
+
+      (field)
+
+      (parameter_list
+        (parameter)
+      )
+      (numbered_variable)
+    )
+    (stmt_terminator)
+    (comment)
+  )
+)

@@ -1,0 +1,36 @@
+==============
+SRH Statement
+==============
+
+@srh,'drawerb' y 2-2,5-6 |,sh,970101/r,sh,001231/y,,1 .
+
+---
+
+(source_file
+  (statement
+    (stmt_prefix)
+    (srh
+      (call)
+      named_report: (data_name)
+      (options)
+      (field)
+      (field)
+      (parameter_list
+        (line_type)
+        (parameter)
+        (parameter)
+      )
+      (parameter_list
+        (line_type)
+        (parameter)
+        (parameter)
+      )
+      (parameter_list
+        (line_type)
+        (parameter)
+      )
+    )
+    (stmt_terminator)
+    (comment)
+  )
+)

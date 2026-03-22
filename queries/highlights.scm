@@ -2,8 +2,9 @@
 
 (stmt_prefix) @punctuation.delimiter
 
-(statement "," @punctuation.delimiter)
-(statement "=" @operator)
+("," @punctuation.delimiter)
+("-" @punctuation.delimiter)
+("=" @operator)
 
 (comment) @comment
 
@@ -11,14 +12,16 @@
 
 (call) @keyword
 
+(cabinet) @property
+(drawer) @property
 (report) @property
+(data_name) @string
 
 (options) @attribute.builtin
 
 (field) @string.special.path
 
 (line_type) @character.special
-
 (parameter) @string.regexp
 
 (named_variable) @variable
@@ -35,7 +38,7 @@
 (string) @string
 (integer) @number
 (float) @number.float
-(delimiter) @character.special
+(character) @character
 
 (keyword) @keyword.operator
 
