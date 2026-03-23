@@ -20,34 +20,15 @@
     "fields": {}
   },
   {
-    "type": "delimiter",
+    "type": "keyword",
     "named": true,
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
-          "type": "character",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "field",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "numeric_range",
-          "named": true
-        },
-        {
-          "type": "string_literal",
+          "type": "numeric_literal",
           "named": true
         }
       ]
@@ -61,25 +42,6 @@
       "multiple": true,
       "required": true,
       "types": [
-        {
-          "type": "numeric_literal",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "option",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "character",
-          "named": true
-        },
         {
           "type": "env_variable",
           "named": true
@@ -98,63 +60,6 @@
         },
         {
           "type": "numeric_literal",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "options",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "option",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "parameter",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "line_type",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "report",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "numeric_literal",
-          "named": true
-        },
-        {
-          "type": "string_literal",
           "named": true
         }
       ]
@@ -209,23 +114,11 @@
           "named": true
         },
         {
-          "type": "field",
-          "named": true
-        },
-        {
           "type": "label",
           "named": true
         },
         {
-          "type": "options",
-          "named": true
-        },
-        {
-          "type": "parameter",
-          "named": true
-        },
-        {
-          "type": "report",
+          "type": "stmt_group",
           "named": true
         },
         {
@@ -235,9 +128,76 @@
         {
           "type": "stmt_terminator",
           "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "stmt_group",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "array_index",
+          "named": true
         },
         {
-          "type": "variable_operations",
+          "type": "character",
+          "named": true
+        },
+        {
+          "type": "env_variable",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "global_variable",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        },
+        {
+          "type": "named_variable",
+          "named": true
+        },
+        {
+          "type": "numbered_variable",
+          "named": true
+        },
+        {
+          "type": "numeric_literal",
+          "named": true
+        },
+        {
+          "type": "numeric_range",
+          "named": true
+        },
+        {
+          "type": "operator",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "substring",
+          "named": true
+        },
+        {
+          "type": "type",
           "named": true
         }
       ]
@@ -259,65 +219,6 @@
     }
   },
   {
-    "type": "variable_operations",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "array_index",
-          "named": true
-        },
-        {
-          "type": "delimiter",
-          "named": true
-        },
-        {
-          "type": "env_variable",
-          "named": true
-        },
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "global_variable",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "named_variable",
-          "named": true
-        },
-        {
-          "type": "numbered_variable",
-          "named": true
-        },
-        {
-          "type": "numeric_literal",
-          "named": true
-        },
-        {
-          "type": "string_literal",
-          "named": true
-        },
-        {
-          "type": "substring",
-          "named": true
-        },
-        {
-          "type": "type",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": " ",
     "named": false
   },
@@ -330,19 +231,15 @@
     "named": false
   },
   {
+    "type": "+",
+    "named": false
+  },
+  {
     "type": ",",
     "named": false
   },
   {
     "type": "-",
-    "named": false
-  },
-  {
-    "type": "/",
-    "named": false
-  },
-  {
-    "type": "=",
     "named": false
   },
   {
@@ -374,19 +271,11 @@
     "named": true
   },
   {
-    "type": "identifier",
-    "named": true
-  },
-  {
     "type": "integer",
     "named": true
   },
   {
     "type": "label",
-    "named": true
-  },
-  {
-    "type": "line_type",
     "named": true
   },
   {
@@ -399,6 +288,10 @@
   },
   {
     "type": "numeric_literal",
+    "named": true
+  },
+  {
+    "type": "operator",
     "named": true
   },
   {

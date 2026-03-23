@@ -22,12 +22,12 @@ function ci(str) {
 
 export default grammar({
   name: "bis",
-  // extras: ($) => [/\s/, ",", $.separator],
+  // Whitespace not included in extras because it is significant for separating tokens
   extras: ($) => [$.separator],
   rules: {
     source_file: ($) => repeat($._line),
     _line: ($) => choice($.statement, $._blank_line),
-    separator: ($) => seq(/\\/, $.comment),
+    separator: ($) => seq(/\\/, $.comment, /\s*/),
     _blank_line: ($) => /\n/,
 
     // Statements are instructions entered into a run control report starting at line 3, forming a script.
@@ -41,7 +41,7 @@ export default grammar({
         $.stmt_prefix,
         optional($.label),
         repeat(" "),
-        repeat1($._contents),
+        repeat($._contents),
         $.stmt_terminator,
         optional($.comment),
       ),
@@ -62,44 +62,55 @@ export default grammar({
     comment: (_) => prec(-1, seq(/[^\n]+/, /\n/)),
 
     _contents: ($) =>
-      seq(
-        $.call,
+      seq($.call, choice(",", " "), repeat(seq($.stmt_group, " "))),
 
-        choice(
-          // @label:call,[[report]] options fields line-type,\ parameters variables . comment
-          // Report can be any sequence of string literals or numeric literals
-          // optional(seq($.report, " ")),
-          seq(",", $.report, " ", $.options, " "),
-
-          // @label:call,report [[options]] fields line-type,\ parameters variables . comment
-          // optional(seq(",", $.options, " ")),
-          seq(",", $.options, " "),
-          " ",
+    stmt_group: ($) =>
+      choice(
+        seq($._stmt_item, repeat(seq(",", optional($._stmt_item)))),
+        seq(
+          ",",
+          seq(optional($._stmt_item), repeat(seq(",", optional($._stmt_item)))),
         ),
+      ),
 
-        // @label:call,report options [[fields]] line-type,\ parameters variables . comment
-        // Fields are either string literals or column range i.e. 3-4, 12-3
-        optional(seq($._field_list, " ")),
-
-        // @label:call,report options fields [[line-type,\ parameters]] variables . comment
-        // Parameters have a line type followed by any number of params, separted by a '/'
-        optional(seq($._parameter_list, " ")),
-
-        // @label:call,report options fields line-type,\ parameters [[variables]] . comment
-        optional(seq($.variable_operations, " ")),
+    _stmt_item: ($) =>
+      repeat1(
+        choice(
+          $._variable_definition,
+          $.numeric_range,
+          $.keyword,
+          $.string_literal,
+          $.numeric_literal,
+          $.integer,
+          $.float,
+          $.operator,
+          $.character,
+        ),
       ),
 
     // Basic Tokens
 
     numeric_literal: ($) => token(/[0-9]+/),
-    numeric_range: ($) => seq($.numeric_literal, "-", $.numeric_literal),
-    identifier: ($) => token(/[A-Za-z0-9]+/),
+    numeric_range: ($) =>
+      seq(
+        choice($._variable, $.numeric_literal),
+        "-",
+        choice($._variable, $.numeric_literal),
+      ),
+    identifier: ($) => token(/[A-Za-z][A-Za-z0-9]+/),
     string_literal: ($) =>
       token(choice(seq("'", /[^']*/, "'"), seq('"', /[^"]*/, '"'))),
+    keyword: ($) =>
+      choice(
+        seq(/[Ll][Ii][Nn]/, optional(choice("-", "+")), $.numeric_literal),
+        /[Ee][Nn][Dd]/,
+        /[Rr][Pp][Xx]/,
+      ),
 
     integer: ($) => token(choice(/\d+/, /\d+[Ee]\-?\d+/)),
     float: ($) => token(choice(/\d*\.\d+/, /\d*\.\d+[Ee]\-?\d+/)),
-    character: ($) => token(prec(-1, /[^\s.]/)),
+    operator: ($) => token(choice(/[=+\-/*]/, /\*\*/, /\/\//)),
+    character: ($) => token(prec(-1, /[^\s.,]/)),
 
     line_type: ($) => token(choice("|", "*", ".", /[A-Za-z]/, /\$[TtAaBb]/)),
 
@@ -167,46 +178,5 @@ export default grammar({
 
     // Delimiters are used like this in LDV for extracting report columns
     delimiter: ($) => seq("(", $.character, ")"),
-
-    report: ($) =>
-      seq(
-        choice($.string_literal, $.numeric_literal, $.identifier),
-        repeat(seq(",", $.string_literal, $.numeric_literal, $.identifier)),
-      ),
-
-    // `fields` The report fields to process. Specify either column-character positions (e.g., `2-2`) or a
-    // field name (e.g., `'StCd'`).
-    field: ($) => choice($.numeric_range, $.string_literal),
-    _field_list: ($) => seq($.field, repeat(seq(",", $.field))),
-
-    // Options
-    // Options can be any number of alpha characters but also may have numeric literals or other embedded arguments
-    option: ($) =>
-      choice(
-        /[A-Za-z@/]/,
-        seq(
-          /[A-Za-z@]/,
-          "(",
-          choice($.character, $.numeric_literal, $._variable),
-          ")",
-        ),
-        seq(
-          /[A-Za-z@]/,
-          choice($.numeric_literal, $._variable),
-          "-",
-          choice($.numeric_literal, $._variable),
-        ),
-      ),
-    options: ($) => repeat1($.option),
-
-    parameter: ($) =>
-      seq(optional($.line_type), repeat1(seq(",", optional($.identifier)))),
-    _parameter_list: ($) => seq($.parameter, repeat(seq("/", $.parameter))),
-
-    _variable_operation: ($) =>
-      choice($._variable_definition, $._variable_assignment),
-
-    variable_operations: ($) =>
-      seq($._variable_operation, repeat(seq(",", $._variable_operation))),
   },
 });

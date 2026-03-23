@@ -11,30 +11,39 @@ SRU Statement
     (stmt_prefix)
     (label)
     (call)
-    (report
+
+    (stmt_group
       (numeric_literal)
-      (identifier)
+      (character)
       (numeric_literal)
     )
-    (options
-      (option)
-      (option)
-      (option)
-      (option)
+
+    (stmt_group
+      (character)
+      (character)
+      (character)
+      (character)
+      (numeric_range
+        (numbered_variable)
+        (numeric_literal)
+      )
     )
-    (field
+
+    (stmt_group
       (numeric_range
         (numeric_literal)
         (numeric_literal)
       )
     )
-    (parameter
-      (identifier)
+
+    (stmt_group
+      (numeric_literal)
     )
-    (variable_operations
+
+    (stmt_group
       (numbered_variable)
     )
+
     (stmt_terminator)
-    (comment)
   )
 )

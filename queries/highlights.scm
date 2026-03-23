@@ -4,13 +4,12 @@
 (stmt_terminator) @punctuation.delimiter
 
 ("," @punctuation.delimiter)
-("/" @punctuation.delimiter)
-("-" @punctuation.delimiter)
-("=" @operator)
 ("(" @punctuation.bracket)
 (")" @punctuation.bracket)
 ("[" @punctuation.bracket)
 ("]" @punctuation.bracket)
+
+(operator) @operator
 
 (comment) @comment
 
@@ -27,7 +26,7 @@
 (substring) @function.builtin
 (array_index) @variable
 
-(identifier) @attribute
+(keyword) @keyword
 (numeric_literal) @number
 (string_literal) @string
 (integer) @number

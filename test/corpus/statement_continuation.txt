@@ -10,20 +10,30 @@ Line Separator
 (source_file
   (statement
     (stmt_prefix)
-      (ldv 
-        (call)
-        (options)
-        (named_variable)
-        (named_variable)
-      )
-      (comment)
-      (ldv 
-        (call)
-        (options)
-        (named_variable)
-        (type)
-        (named_variable)
-      )
+
+    (call)
+    (stmt_group
+      (character)
+    )
+    (stmt_group
+      (named_variable)
+      (named_variable)
+    )
+
+    (separator (comment))
+
+    (call)
+    (stmt_group
+      (character)
+      (character)
+    )
+    (stmt_group
+      (named_variable)
+      (type)
+      (operator)
+      (named_variable)
+    )
+
     (stmt_terminator)
     (comment)
   )
