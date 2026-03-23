@@ -1,0 +1,18 @@
+=============
+Display Line
+=============
+
+           Zulu Start Date & Time  <sd>  <st>
+             Zulu End Date & Time  <ed>  <et>
+
+---
+(source_file
+  (display_line
+    (named_variable)
+    (named_variable)
+  )
+  (display_line
+    (named_variable)
+    (named_variable)
+  )
+)

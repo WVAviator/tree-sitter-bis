@@ -4,6 +4,7 @@
 (stmt_terminator) @punctuation.delimiter
 
 ("," @punctuation.delimiter)
+(";" @punctuation.delimiter)
 ("(" @punctuation.bracket)
 (")" @punctuation.bracket)
 ("[" @punctuation.bracket)
@@ -12,8 +13,9 @@
 (operator) @operator
 
 (comment) @comment
-(frontmatter) @comment.documentation
+(frontmatter) @string.documentation
 (header_line) @comment.note
+(display_line) @string
 
 (label) @label
 

@@ -27,6 +27,10 @@
         {
           "type": "SYMBOL",
           "name": "header_line"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "display_line"
         }
       ]
     },
@@ -84,16 +88,38 @@
         }
       ]
     },
+    "display_line": {
+      "type": "PREC",
+      "value": -1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_variable"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "[^\\n]"
+                }
+              ]
+            }
+          },
+          {
+            "type": "PATTERN",
+            "value": "\\n"
+          }
+        ]
+      }
+    },
     "statement": {
       "type": "SEQ",
       "members": [
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "STRING",
-            "value": " "
-          }
-        },
         {
           "type": "SYMBOL",
           "name": "stmt_prefix"
@@ -1215,6 +1241,10 @@
           {
             "type": "SYMBOL",
             "name": "float"
+          },
+          {
+            "type": "STRING",
+            "value": ";"
           },
           {
             "type": "SYMBOL",
