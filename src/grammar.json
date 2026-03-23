@@ -19,6 +19,14 @@
         {
           "type": "SYMBOL",
           "name": "_blank_line"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "frontmatter"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "header_line"
         }
       ]
     },
@@ -42,6 +50,39 @@
     "_blank_line": {
       "type": "PATTERN",
       "value": "\\n"
+    },
+    "frontmatter": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "\\."
+        },
+        {
+          "type": "PATTERN",
+          "value": "[^\\n]*"
+        },
+        {
+          "type": "PATTERN",
+          "value": "\\n"
+        }
+      ]
+    },
+    "header_line": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "\\*"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "PATTERN",
+            "value": "="
+          }
+        }
+      ]
     },
     "statement": {
       "type": "SEQ",

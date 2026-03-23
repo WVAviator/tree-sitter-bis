@@ -26,9 +26,13 @@ export default grammar({
   extras: ($) => [$.separator],
   rules: {
     source_file: ($) => repeat($._line),
-    _line: ($) => choice($.statement, $._blank_line),
+
+    _line: ($) =>
+      choice($.statement, $._blank_line, $.frontmatter, $.header_line),
     separator: ($) => seq(/\\/, $.comment, /\s*/),
     _blank_line: ($) => /\n/,
+    frontmatter: ($) => seq(/\./, /[^\n]*/, /\n/),
+    header_line: ($) => seq(/\*/, repeat(/=/)),
 
     // Statements are instructions entered into a run control report starting at line 3, forming a script.
     // Every statement line begins with `@` and follows this general format:

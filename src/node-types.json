@@ -20,6 +20,16 @@
     "fields": {}
   },
   {
+    "type": "frontmatter",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "header_line",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "keyword",
     "named": true,
     "fields": {},
@@ -90,6 +100,14 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "frontmatter",
+          "named": true
+        },
+        {
+          "type": "header_line",
+          "named": true
+        },
         {
           "type": "statement",
           "named": true

@@ -12,6 +12,8 @@
 (operator) @operator
 
 (comment) @comment
+(frontmatter) @comment.documentation
+(header_line) @comment.note
 
 (label) @label
 
