@@ -207,6 +207,10 @@
           "named": true
         },
         {
+          "type": "reserved_word",
+          "named": true
+        },
+        {
           "type": "string_literal",
           "named": true
         },
@@ -310,6 +314,10 @@
   },
   {
     "type": "operator",
+    "named": true
+  },
+  {
+    "type": "reserved_word",
     "named": true
   },
   {

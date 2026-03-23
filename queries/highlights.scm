@@ -19,6 +19,8 @@
 
 (call) @keyword
 
+(reserved_word) @constant
+
 (named_variable) @variable
 (global_variable) @variable
 (env_variable) @variable

@@ -4,7 +4,7 @@
  * @license MIT
  */
 
-import { ALL_CALLS } from "./constants.js";
+import { ALL_CALLS, ALL_RESERVED_WORDS } from "./constants.js";
 
 function ci(str) {
   return new RegExp(
@@ -81,6 +81,7 @@ export default grammar({
       repeat1(
         choice(
           $._variable_definition,
+          $.reserved_word,
           $.numeric_range,
           $.keyword,
           $.string_literal,
@@ -120,7 +121,13 @@ export default grammar({
 
     // Essentially a RHS to an expression
     _value_definition: ($) =>
-      choice($.string_literal, $.integer, $.float, $._variable_definition),
+      choice(
+        $.string_literal,
+        $.integer,
+        $.float,
+        $._variable_definition,
+        $.reserved_word,
+      ),
 
     // Variables
 
@@ -133,6 +140,9 @@ export default grammar({
       token(prec(2, seq(/[afhiosAFHIOS]/, /\d{1,3}/, optional(/\.\d{1,2}/)))),
     substring: ($) => seq("(", $.numeric_range, ")"),
     array_index: ($) => seq("[", optional($.numeric_literal), "]"),
+
+    reserved_word: ($) =>
+      token(seq(choice(...ALL_RESERVED_WORDS.map(ci)), "$")),
 
     _variable: ($) =>
       choice(
