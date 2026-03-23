@@ -187,6 +187,7 @@ export const ALL_CALLS = [
   "SQ",
   "SQL",
   "SRH",
+  "SRU",
   "STN",
   "STR",
   "SUB",

@@ -1,28 +1,22 @@
 ; neovim.io/doc/user/treesitter
 
 (stmt_prefix) @punctuation.delimiter
+(stmt_terminator) @punctuation.delimiter
 
 ("," @punctuation.delimiter)
+("/" @punctuation.delimiter)
 ("-" @punctuation.delimiter)
 ("=" @operator)
+("(" @punctuation.bracket)
+(")" @punctuation.bracket)
+("[" @punctuation.bracket)
+("]" @punctuation.bracket)
 
 (comment) @comment
 
 (label) @label
 
 (call) @keyword
-
-(cabinet) @property
-(drawer) @property
-(report) @property
-(data_name) @string
-
-(options) @attribute.builtin
-
-(field) @string.special.path
-
-(line_type) @character.special
-(parameter) @string.regexp
 
 (named_variable) @variable
 (global_variable) @variable
@@ -33,12 +27,9 @@
 (substring) @function.builtin
 (array_index) @variable
 
-(stmt_terminator) @punctuation.delimiter
-
-(string) @string
+(identifier) @attribute
+(numeric_literal) @number
+(string_literal) @string
 (integer) @number
 (float) @number.float
 (character) @character
-
-(keyword) @keyword.operator
-

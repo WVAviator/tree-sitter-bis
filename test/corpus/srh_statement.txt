@@ -9,28 +9,37 @@ SRH Statement
 (source_file
   (statement
     (stmt_prefix)
-    (srh
-      (call)
-      named_report: (data_name)
-      (options)
-      (field)
-      (field)
-      (parameter_list
-        (line_type)
-        (parameter)
-        (parameter)
-      )
-      (parameter_list
-        (line_type)
-        (parameter)
-        (parameter)
-      )
-      (parameter_list
-        (line_type)
-        (parameter)
+    (call)
+    (report
+      (string_literal)
+    )
+    (options)
+    (field
+      (numeric_range
+        (numeric_literal)
+        (numeric_literal)
       )
     )
+    (field
+      (numeric_range
+        (numeric_literal)
+        (numeric_literal)
+      )
+    )
+    (parameter
+      (line_type)
+      (identifier)
+      (identifier)
+    )
+    (parameter
+      (line_type)
+      (identifier)
+      (identifier)
+    )
+    (parameter
+      (line_type)
+      (identifier)
+    )
     (stmt_terminator)
-    (comment)
   )
 )

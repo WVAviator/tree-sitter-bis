@@ -10,19 +10,28 @@ SRU Statement
   (statement
     (stmt_prefix)
     (label)
-    (sru
-      (call)
-      (cabinet)
-      (drawer)
-      (label)
-
-      (options (numbered_variable) (integer))
-
-      (field)
-
-      (parameter_list
-        (parameter)
+    (call)
+    (report
+      (numeric_literal)
+      (identifier)
+      (numeric_literal)
+    )
+    (options
+      (option)
+      (option)
+      (option)
+      (option)
+    )
+    (field
+      (numeric_range
+        (numeric_literal)
+        (numeric_literal)
       )
+    )
+    (parameter
+      (identifier)
+    )
+    (variable_operations
       (numbered_variable)
     )
     (stmt_terminator)
