@@ -13,8 +13,6 @@
 (operator) @operator
 
 (comment) @comment
-(frontmatter) @string.documentation
-(header_line) @comment.note
 (display_line) @string
 
 (label) @label
