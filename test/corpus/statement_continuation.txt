@@ -11,26 +11,21 @@ Line Separator
   (statement
     (stmt_prefix)
 
-    (call)
-    (stmt_group
-      (character)
-    )
-    (stmt_group
+    (ldv
+      (call)
+      (option)
       (named_variable)
       (named_variable)
     )
 
     (separator (comment))
 
-    (call)
-    (stmt_group
-      (character)
-      (character)
-    )
-    (stmt_group
+    (ldv
+      (call)
+      (option)
+      (option)
       (named_variable)
       (type)
-      (operator)
       (named_variable)
     )
 

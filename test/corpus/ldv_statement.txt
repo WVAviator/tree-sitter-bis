@@ -10,46 +10,33 @@ LDV Statement
 (source_file
   (statement
     (stmt_prefix)
-
-    (call)
-    (stmt_group
-      (character)
-    )
-    (stmt_group
+    (ldv
+      (call)
+      (option)
       (named_variable)
       (named_variable)
     )
-
-    (call)
-    (stmt_group
-      (character)
-      (character)
-    )
-    (stmt_group
+    (ldv
+      (call)
+      (option)
+      (option)
       (named_variable)
       (type)
-      (operator)
       (named_variable)
     )
-
     (stmt_terminator)
     (comment)
   )
   (statement
     (stmt_prefix)
-    (call)
-    (stmt_group
-      (character)
-    )
-    (stmt_group
+    (ldv
+      (call)
+      (option)
       (named_variable)
       (type)
-      (operator)
       (named_variable)
       (numeric_literal)
-      (character)
-      (character)
-      (character)
+      (delimiter (character))
     )
     (stmt_terminator)
     (comment)

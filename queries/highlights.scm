@@ -19,7 +19,7 @@
 
 (call) @keyword
 
-(reserved_word) @constant
+(reserved_word) @constant.builtin
 
 (named_variable) @variable
 (global_variable) @variable
@@ -36,3 +36,5 @@
 (integer) @number
 (float) @number.float
 (character) @character
+
+(option) @attribute

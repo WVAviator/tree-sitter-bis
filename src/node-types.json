@@ -20,6 +20,21 @@
     "fields": {}
   },
   {
+    "type": "delimiter",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "character",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "display_line",
     "named": true,
     "fields": {},
@@ -47,14 +62,79 @@
     }
   },
   {
-    "type": "frontmatter",
+    "type": "ldv",
     "named": true,
-    "fields": {}
-  },
-  {
-    "type": "header_line",
-    "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "array_index",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "constant",
+          "named": true
+        },
+        {
+          "type": "delimiter",
+          "named": true
+        },
+        {
+          "type": "env_variable",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "global_variable",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "named_variable",
+          "named": true
+        },
+        {
+          "type": "numbered_variable",
+          "named": true
+        },
+        {
+          "type": "numeric_literal",
+          "named": true
+        },
+        {
+          "type": "option",
+          "named": true
+        },
+        {
+          "type": "reserved_word",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "substring",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "numeric_range",
@@ -117,14 +197,6 @@
           "named": true
         },
         {
-          "type": "frontmatter",
-          "named": true
-        },
-        {
-          "type": "header_line",
-          "named": true
-        },
-        {
           "type": "statement",
           "named": true
         }
@@ -149,6 +221,10 @@
         },
         {
           "type": "label",
+          "named": true
+        },
+        {
+          "type": "ldv",
           "named": true
         },
         {
@@ -281,6 +357,10 @@
     "named": false
   },
   {
+    "type": "=",
+    "named": false
+  },
+  {
     "type": "[",
     "named": false
   },
@@ -294,6 +374,10 @@
   },
   {
     "type": "character",
+    "named": true
+  },
+  {
+    "type": "constant",
     "named": true
   },
   {
@@ -334,6 +418,10 @@
   },
   {
     "type": "operator",
+    "named": true
+  },
+  {
+    "type": "option",
     "named": true
   },
   {
