@@ -106,10 +106,12 @@ export default grammar({
     string_literal: ($) =>
       token(choice(seq("'", /[^']*/, "'"), seq('"', /[^"]*/, '"'))),
     keyword: ($) =>
-      choice(
-        seq(/[Ll][Ii][Nn]/, optional(choice("-", "+")), $.numeric_literal),
-        /[Ee][Nn][Dd]/,
-        /[Rr][Pp][Xx]/,
+      token(
+        choice(
+          seq(/[Ll][Ii][Nn]/, optional(choice("-", "+")), /[0-9]+/),
+          /[Ee][Nn][Dd]/,
+          /[Rr][Pp][Xx]/,
+        ),
       ),
 
     integer: ($) => token(choice(/\d+/, /\d+[Ee]\-?\d+/)),
