@@ -17,7 +17,7 @@ function ci(str) {
   );
 }
 
-const IMPLEMENTED_CALLS = new Set(["LDV", "SRH", "SRU", "GTO", "INC"]);
+const IMPLEMENTED_CALLS = new Set(["LDV", "SRH", "SRU", "GTO", "INC", "DEC"]);
 
 function get_calls() {
   return ALL_CALLS.filter((call) => !IMPLEMENTED_CALLS.has(call)).map(ci);
@@ -82,7 +82,7 @@ export default grammar({
     comment: (_) => prec(-1, seq(/[^\n]+/, /\n/)),
 
     _contents: ($) =>
-      choice($.ldv, $.srh, $.sru, $.gto, $.inc, $._generic_stmt),
+      choice($.ldv, $.srh, $.sru, $.gto, $.inc, $.dec, $._generic_stmt),
 
     _generic_stmt: ($) =>
       prec(-1, seq($.call, choice(",", " "), repeat(seq($.stmt_group, " ")))),
@@ -417,7 +417,21 @@ export default grammar({
       seq(
         alias(/[Ii][Nn][Cc]/, $.call),
         optional(
-          seq(",", choice($._variable, $.numeric_literal, $.reserved_word)),
+          seq(",", choice($._variable, $.integer, $.float, $.reserved_word)),
+        ),
+        " ",
+        $._variable,
+        repeat(seq(",", $._variable)),
+        " ",
+      ),
+
+    // DEC Statement
+
+    dec: ($) =>
+      seq(
+        alias(/[Dd][Ee][Cc]/, $.call),
+        optional(
+          seq(",", choice($._variable, $.integer, $.float, $.reserved_word)),
         ),
         " ",
         $._variable,

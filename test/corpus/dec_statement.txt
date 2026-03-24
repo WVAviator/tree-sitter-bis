@@ -1,17 +1,17 @@
 ==============
-INC Statement
+DEC Statement
 ==============
 
-@inc <counter> .
-@inc,10 <counter> .
-@inc,<currenttot> <counter> .
+@dec <counter> .
+@dec,10 <counter> .
+@dec,<discount> <totalcost> .
 
 ---
 
 (source_file
   (statement
     (stmt_prefix)
-    (inc
+    (dec
       (call)
       (named_variable)
     )
@@ -19,7 +19,7 @@ INC Statement
   )
   (statement
     (stmt_prefix)
-    (inc
+    (dec
       (call)
       (integer)
       (named_variable)
@@ -28,7 +28,7 @@ INC Statement
   )
   (statement
     (stmt_prefix)
-    (inc
+    (dec
       (call)
       (named_variable)
       (named_variable)

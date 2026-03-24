@@ -98,6 +98,49 @@
     "fields": {}
   },
   {
+    "type": "dec",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "env_variable",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "global_variable",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "named_variable",
+          "named": true
+        },
+        {
+          "type": "numbered_variable",
+          "named": true
+        },
+        {
+          "type": "reserved_word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "delimiter",
     "named": true,
     "fields": {},
@@ -243,7 +286,15 @@
           "named": true
         },
         {
+          "type": "float",
+          "named": true
+        },
+        {
           "type": "global_variable",
+          "named": true
+        },
+        {
+          "type": "integer",
           "named": true
         },
         {
@@ -252,10 +303,6 @@
         },
         {
           "type": "numbered_variable",
-          "named": true
-        },
-        {
-          "type": "numeric_literal",
           "named": true
         },
         {
@@ -605,6 +652,10 @@
         },
         {
           "type": "comment",
+          "named": true
+        },
+        {
+          "type": "dec",
           "named": true
         },
         {
