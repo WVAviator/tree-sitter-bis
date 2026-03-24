@@ -239,7 +239,11 @@ export default grammar({
       seq(optional($.line_type), repeat1(seq(",", optional($._parameter)))),
 
     _parameter: ($) =>
-      choice($.string_literal, alias(/[A-Za-z0-9@]+/, $.identifier)),
+      choice(
+        $._variable,
+        $.string_literal,
+        alias(/[A-Za-z0-9@]+/, $.identifier),
+      ),
 
     // Specific calls
 

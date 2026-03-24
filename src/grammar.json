@@ -2937,6 +2937,10 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "_variable"
+        },
+        {
+          "type": "SYMBOL",
           "name": "string_literal"
         },
         {

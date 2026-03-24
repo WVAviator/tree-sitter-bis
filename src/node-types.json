@@ -300,11 +300,27 @@
       "required": false,
       "types": [
         {
+          "type": "env_variable",
+          "named": true
+        },
+        {
+          "type": "global_variable",
+          "named": true
+        },
+        {
           "type": "identifier",
           "named": true
         },
         {
           "type": "line_type",
+          "named": true
+        },
+        {
+          "type": "named_variable",
+          "named": true
+        },
+        {
+          "type": "numbered_variable",
           "named": true
         },
         {

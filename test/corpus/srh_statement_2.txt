@@ -1,0 +1,66 @@
+================
+SRH Statement 2
+================
+
+@    SRH,050,E,,,,0190 DHR600-699 45-3,49-3,75-13 \  Search activations
+          ,<bas>,<pos>,<sdatetm>/R,<bas>,<pos>,<edatetm> .
+
+---
+
+(source_file
+  (statement
+    (stmt_prefix)
+    (srh
+      (call)
+      (address
+        cabinet: (numeric_literal)
+        drawer: (identifier)
+        missing_goto: (label)
+      )
+      (option)
+      (option)
+      (option
+        (numeric_range
+          (numeric_literal)
+          (numeric_literal)
+        )
+      )
+      (field
+        (numeric_range
+          (numeric_literal)
+          (numeric_literal)
+        )
+      )
+      (field
+        (numeric_range
+          (numeric_literal)
+          (numeric_literal)
+        )
+      )
+      (field
+        (numeric_range
+          (numeric_literal)
+          (numeric_literal)
+        )
+      )
+
+      (separator (comment))
+
+      (search_param
+        (named_variable)
+        (named_variable)
+        (named_variable)
+      )
+      (search_param
+        (line_type)
+        (named_variable)
+        (named_variable)
+        (named_variable)
+      )
+
+    )
+    (stmt_terminator)
+  )
+
+)
+
