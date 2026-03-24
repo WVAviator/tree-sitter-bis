@@ -1,0 +1,38 @@
+==============
+INC Statement
+==============
+
+@inc <counter> .
+@inc,10 <counter> .
+@inc,<currenttot> <counter> .
+
+---
+
+(source_file
+  (statement
+    (stmt_prefix)
+    (inc
+      (call)
+      (named_variable)
+    )
+    (stmt_terminator)
+  )
+  (statement
+    (stmt_prefix)
+    (inc
+      (call)
+      (numeric_literal)
+      (named_variable)
+    )
+    (stmt_terminator)
+  )
+  (statement
+    (stmt_prefix)
+    (inc
+      (call)
+      (named_variable)
+      (named_variable)
+    )
+    (stmt_terminator)
+  )
+)

@@ -227,6 +227,45 @@
     }
   },
   {
+    "type": "inc",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "env_variable",
+          "named": true
+        },
+        {
+          "type": "global_variable",
+          "named": true
+        },
+        {
+          "type": "named_variable",
+          "named": true
+        },
+        {
+          "type": "numbered_variable",
+          "named": true
+        },
+        {
+          "type": "numeric_literal",
+          "named": true
+        },
+        {
+          "type": "reserved_word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "ldv",
     "named": true,
     "fields": {},
@@ -570,6 +609,10 @@
         },
         {
           "type": "gto",
+          "named": true
+        },
+        {
+          "type": "inc",
           "named": true
         },
         {

@@ -17,7 +17,7 @@ function ci(str) {
   );
 }
 
-const IMPLEMENTED_CALLS = new Set(["LDV", "SRH", "SRU", "GTO"]);
+const IMPLEMENTED_CALLS = new Set(["LDV", "SRH", "SRU", "GTO", "INC"]);
 
 function get_calls() {
   return ALL_CALLS.filter((call) => !IMPLEMENTED_CALLS.has(call)).map(ci);
@@ -81,7 +81,8 @@ export default grammar({
 
     comment: (_) => prec(-1, seq(/[^\n]+/, /\n/)),
 
-    _contents: ($) => choice($.ldv, $.srh, $.sru, $.gto, $._generic_stmt),
+    _contents: ($) =>
+      choice($.ldv, $.srh, $.sru, $.gto, $.inc, $._generic_stmt),
 
     _generic_stmt: ($) =>
       prec(-1, seq($.call, choice(",", " "), repeat(seq($.stmt_group, " ")))),
@@ -407,6 +408,20 @@ export default grammar({
             field("report", choice($.numeric_literal, $.string_literal)),
           ),
         ),
+        " ",
+      ),
+
+    // INC Statement
+
+    inc: ($) =>
+      seq(
+        alias(/[Ii][Nn][Cc]/, $.call),
+        optional(
+          seq(",", choice($._variable, $.numeric_literal, $.reserved_word)),
+        ),
+        " ",
+        $._variable,
+        repeat(seq(",", $._variable)),
         " ",
       ),
   },
