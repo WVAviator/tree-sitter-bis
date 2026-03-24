@@ -34,8 +34,16 @@
           "value": "\\\\"
         },
         {
-          "type": "SYMBOL",
-          "name": "comment"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "comment"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "PATTERN",
@@ -533,6 +541,10 @@
           },
           {
             "type": "PATTERN",
+            "value": "[lL][dD][vV]"
+          },
+          {
+            "type": "PATTERN",
             "value": "[lL][fF][cC]"
           },
           {
@@ -913,6 +925,14 @@
           },
           {
             "type": "PATTERN",
+            "value": "[sS][rR][hH]"
+          },
+          {
+            "type": "PATTERN",
+            "value": "[sS][rR][uU]"
+          },
+          {
+            "type": "PATTERN",
             "value": "[sS][tT][nN]"
           },
           {
@@ -1050,48 +1070,6 @@
           "name": "_generic_stmt"
         }
       ]
-    },
-    "_generic_stmt": {
-      "type": "PREC",
-      "value": -1,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "call"
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "STRING",
-                "value": ","
-              },
-              {
-                "type": "STRING",
-                "value": " "
-              }
-            ]
-          },
-          {
-            "type": "REPEAT",
-            "content": {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "stmt_group"
-                },
-                {
-                  "type": "STRING",
-                  "value": " "
-                }
-              ]
-            }
-          }
-        ]
-      }
     },
     "stmt_group": {
       "type": "CHOICE",
@@ -3962,6 +3940,44 @@
         {
           "type": "PATTERN",
           "value": "[AaDdFfHhNnPpSs@/]"
+        }
+      ]
+    },
+    "_generic_stmt": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "call"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": ","
+            },
+            {
+              "type": "STRING",
+              "value": " "
+            }
+          ]
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "stmt_group"
+              },
+              {
+                "type": "STRING",
+                "value": " "
+              }
+            ]
+          }
         }
       ]
     }

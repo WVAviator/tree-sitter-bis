@@ -45,7 +45,7 @@ export default grammar({
     source_file: ($) => repeat($._line),
 
     _line: ($) => choice($.statement, $._blank_line, $.display_line),
-    separator: ($) => seq(/\\/, $.comment, /\s*/),
+    separator: ($) => seq(/\\/, optional($.comment), /\s*/),
     _blank_line: ($) => /\n/,
     display_line: ($) =>
       prec(-1, seq(/[^@]/, repeat(choice($._variable, /[^\n]/)), /\n/)),
