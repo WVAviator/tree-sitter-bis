@@ -16,6 +16,7 @@
 (display_line) @string
 
 (label) @label
+(label_reference) @label
 
 (call) @keyword
 

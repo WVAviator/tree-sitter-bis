@@ -17,7 +17,7 @@ function ci(str) {
   );
 }
 
-const IMPLEMENTED_CALLS = new Set(["LDV", "SRH", "SRU"]);
+const IMPLEMENTED_CALLS = new Set(["LDV", "SRH", "SRU", "GTO"]);
 
 function get_calls() {
   return ALL_CALLS.filter((call) => !IMPLEMENTED_CALLS.has(call)).map(ci);
@@ -70,6 +70,7 @@ export default grammar({
     // `label` A number identifying the statement line.
     // Use three or four-character, zero-filled labels (e.g., `@0003`) for easier script maintenance.
     label: ($) => token(seq(/\d{3,4}/, optional(":"))),
+    label_reference: ($) => token(/\d{3,4}/),
 
     // `call` The function call — an abbreviation for the operation name.
     // All calls stored in constants.js and mapped through case-insensitive function
@@ -80,7 +81,7 @@ export default grammar({
 
     comment: (_) => prec(-1, seq(/[^\n]+/, /\n/)),
 
-    _contents: ($) => choice($.ldv, $.srh, $.sru, $._generic_stmt),
+    _contents: ($) => choice($.ldv, $.srh, $.sru, $.gto, $._generic_stmt),
 
     _generic_stmt: ($) =>
       prec(-1, seq($.call, choice(",", " "), repeat(seq($.stmt_group, " ")))),
@@ -359,7 +360,7 @@ export default grammar({
             ),
             optional(field("start_line", $.numeric_literal)),
             optional(field("num_lines", $.numeric_literal)),
-            field("missing_goto", $.label),
+            field("missing_goto", $.label_reference),
           ),
         ),
       ),
@@ -378,6 +379,35 @@ export default grammar({
           repeat(seq(",", choice($.numeric_range, $.numeric_literal))),
         ),
         /[AaDdFfHhNnPpSs@/]/,
+      ),
+
+    // GTO Statement
+
+    gto: ($) =>
+      seq(
+        alias(/[Gg][Tt][Oo]/, $.call),
+        " ",
+        choice(
+          choice($.label_reference, $._variable),
+          delimited_content(
+            ",",
+            alias(/[Ee][Nn][Dd]/, $.keyword),
+            optional(choice($.numeric_literal, $._variable)),
+            optional(choice($.numeric_literal, $._variable)),
+            choice($.numeric_literal, $._variable),
+          ),
+          seq(
+            alias(/[Ll][Ii][Nn]/, $.keyword),
+            optional(choice("+", "-")),
+            field("line_count", $.numeric_literal),
+          ),
+          seq(
+            alias(/[Rr][Pp][Xx]/, $.keyword),
+            " ",
+            field("report", choice($.numeric_literal, $.string_literal)),
+          ),
+        ),
+        " ",
       ),
   },
 });

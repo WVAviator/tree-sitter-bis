@@ -13,8 +13,8 @@ GTO Statement
   (statement
     (stmt_prefix)
 
-    (call)
-    (stmt_group
+    (gto
+      (call)
       (keyword)
       (named_variable)
     )
@@ -25,12 +25,10 @@ GTO Statement
   (statement
     (stmt_prefix)
 
-    (call)
-    (stmt_group
+    (gto
+      (call)
       (keyword)
-    )
-    (stmt_group
-      (numeric_literal)
+      report: (numeric_literal)
     )
 
     (stmt_terminator)
@@ -39,9 +37,9 @@ GTO Statement
   (statement
     (stmt_prefix)
 
-    (call)
-    (stmt_group
-      (numeric_literal)
+    (gto
+      (call)
+      (label_reference)
     )
 
     (stmt_terminator)
@@ -50,10 +48,12 @@ GTO Statement
   (statement
     (stmt_prefix)
 
-    (call)
-    (stmt_group
+    (gto
+      (call)
       (keyword)
+      line_count: (numeric_literal)
     )
+
     (stmt_terminator)
   )
 )

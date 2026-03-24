@@ -36,7 +36,7 @@
         "required": false,
         "types": [
           {
-            "type": "label",
+            "type": "label_reference",
             "named": true
           }
         ]
@@ -153,6 +153,74 @@
         },
         {
           "type": "string_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "gto",
+    "named": true,
+    "fields": {
+      "line_count": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "numeric_literal",
+            "named": true
+          }
+        ]
+      },
+      "report": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "numeric_literal",
+            "named": true
+          },
+          {
+            "type": "string_literal",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "env_variable",
+          "named": true
+        },
+        {
+          "type": "global_variable",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        },
+        {
+          "type": "label_reference",
+          "named": true
+        },
+        {
+          "type": "named_variable",
+          "named": true
+        },
+        {
+          "type": "numbered_variable",
+          "named": true
+        },
+        {
+          "type": "numeric_literal",
           "named": true
         }
       ]
@@ -501,6 +569,10 @@
           "named": true
         },
         {
+          "type": "gto",
+          "named": true
+        },
+        {
           "type": "label",
           "named": true
         },
@@ -634,6 +706,10 @@
     "named": false
   },
   {
+    "type": "+",
+    "named": false
+  },
+  {
     "type": ",",
     "named": false
   },
@@ -699,6 +775,10 @@
   },
   {
     "type": "label",
+    "named": true
+  },
+  {
+    "type": "label_reference",
     "named": true
   },
   {

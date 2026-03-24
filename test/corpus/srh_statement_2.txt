@@ -15,7 +15,7 @@ SRH Statement 2
       (address
         cabinet: (numeric_literal)
         drawer: (identifier)
-        missing_goto: (label)
+        missing_goto: (label_reference)
       )
       (option)
       (option)
