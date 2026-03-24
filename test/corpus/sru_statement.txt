@@ -10,37 +10,32 @@ SRU Statement
   (statement
     (stmt_prefix)
     (label)
-    (call)
 
-    (stmt_group
-      (numeric_literal)
-      (character)
-      (numeric_literal)
-    )
-
-    (stmt_group
-      (character)
-      (character)
-      (character)
-      (character)
-      (numeric_range
-        (numbered_variable)
-        (numeric_literal)
+    (sru
+      (call)
+      (address
+        cabinet: (numeric_literal)
+        drawer: (identifier)
+        missing_goto: (label)
       )
-    )
-
-    (stmt_group
-      (numeric_range
-        (numeric_literal)
-        (numeric_literal)
+      (option)
+      (option)
+      (option)
+      (option
+        (numeric_range
+          (numbered_variable)
+          (numeric_literal)
+        )
       )
-    )
-
-    (stmt_group
-      (numeric_literal)
-    )
-
-    (stmt_group
+      (field
+        (numeric_range
+          (numeric_literal)
+          (numeric_literal)
+        )
+      )
+      (search_param
+        (identifier)
+      )
       (numbered_variable)
     )
 

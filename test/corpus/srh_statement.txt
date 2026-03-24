@@ -9,36 +9,38 @@ SRH Statement
 (source_file
   (statement
     (stmt_prefix)
-    (call)
-    (stmt_group
-      (string_literal)
-    )
-    (stmt_group
-      (character)
-    )
-    (stmt_group
-      (numeric_range
-        (numeric_literal)
-        (numeric_literal)
+    (srh
+      (call)
+      (address
+        report: (string_literal)
       )
-      (numeric_range
-        (numeric_literal)
-        (numeric_literal)
+      (option)
+      (field
+        (numeric_range
+          (numeric_literal)
+          (numeric_literal)
+        )
       )
-    )
-    (stmt_group
-      (character)
-      (character)
-      (character)
-      (numeric_literal)
-      (operator)
-      (character)
-      (character)
-      (character)
-      (numeric_literal)
-      (operator)
-      (character)
-      (numeric_literal)
+      (field
+        (numeric_range
+          (numeric_literal)
+          (numeric_literal)
+        )
+      )
+      (search_param
+        (line_type)
+        (identifier)
+        (identifier)
+      )
+      (search_param
+        (line_type)
+        (identifier)
+        (identifier)
+      )
+      (search_param
+        (line_type)
+        (identifier)
+      )
     )
     (stmt_terminator)
   )

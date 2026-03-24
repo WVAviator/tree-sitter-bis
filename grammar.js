@@ -17,11 +17,22 @@ function ci(str) {
   );
 }
 
-const IMPLEMENTED_CALLS = ["LDV"];
+const IMPLEMENTED_CALLS = new Set(["LDV", "SRH", "SRU"]);
 
 function get_calls() {
-  return ALL_CALLS.filter((call) => !IMPLEMENTED_CALLS.includes(call)).map(ci);
+  return ALL_CALLS.filter((call) => !IMPLEMENTED_CALLS.has(call)).map(ci);
 }
+
+/**
+ * Matches a delimited list that may end early.
+ */
+const delimited_content = (delim, ...args) => {
+  if (args.length === 1) return args[0];
+  return seq(
+    args[0],
+    optional(seq(delim, delimited_content(delim, ...args.slice(1)))),
+  );
+};
 
 /// <reference types="tree-sitter-cli/dsl" />
 // @ts-check
@@ -69,7 +80,7 @@ export default grammar({
 
     comment: (_) => prec(-1, seq(/[^\n]+/, /\n/)),
 
-    _contents: ($) => choice($.ldv, $._generic_stmt),
+    _contents: ($) => choice($.ldv, $.srh, $.sru, $._generic_stmt),
 
     _generic_stmt: ($) =>
       prec(-1, seq($.call, choice(",", " "), repeat(seq($.stmt_group, " ")))),
@@ -190,10 +201,45 @@ export default grammar({
         optional($.delimiter),
       ),
 
+    // Common Groupings by Multiple Commands
+
     // Delimiters are used like this in LDV for extracting report columns
     delimiter: ($) => seq("(", $.character, ")"),
+
+    // Represents a cdr (cabinet-drawer-report) location
+    // Can be just a report name, drawer name with report, or all three named or unnamed
+    address: ($) =>
+      choice(
+        field("report", $.string_literal),
+        seq(
+          field("drawer", $.string_literal),
+          ",",
+          field("report", choice($.string_literal, $.numeric_literal)),
+        ),
+        seq(
+          field("cabinet", choice($.string_literal, $.numeric_literal)),
+          ",",
+          field(
+            "drawer",
+            choice($.string_literal, alias(/[A-Fa-f]/, $.identifier)),
+          ),
+          ",",
+          field("report", choice($.string_literal, $.numeric_literal)),
+        ),
+      ),
+
     // Many commands have options which are sequences of characters
     option: ($) => /[A-Za-z@/]/,
+
+    // Column character positions
+    field: ($) => choice($.string_literal, $.numeric_range),
+
+    // Search parameters list
+    search_param: ($) =>
+      seq(optional($.line_type), repeat1(seq(",", optional($._parameter)))),
+
+    _parameter: ($) =>
+      choice($.string_literal, alias(/[A-Za-z0-9@]+/, $.identifier)),
 
     // Specific calls
 
@@ -229,5 +275,105 @@ export default grammar({
       ),
     _ldv_call: ($) => alias(/[Ll][Dd][Vv]/, $.call),
     _ldv_base_options: ($) => alias(/[CHLOPRUWZchlopruwz]/, $.option),
+
+    // SRH and SRU - Search Records
+
+    srh: ($) =>
+      seq(
+        alias(/[Ss][Rr][Hh]/, $.call),
+        ",",
+        alias($._srh_report, $.address),
+        " ",
+        optional(seq(repeat1(alias($._srh_option, $.option)), " ")),
+
+        $.field,
+        repeat(seq(",", $.field)),
+        " ",
+        $.search_param,
+        repeat(seq("/", $.search_param)),
+        " ",
+        optional(
+          seq(
+            delimited_content(
+              ",",
+              optional($._variable_definition),
+              optional($._variable_definition),
+              $._variable_definition,
+            ),
+            " ",
+          ),
+        ),
+      ),
+
+    sru: ($) =>
+      seq(
+        alias(/[Ss][Rr][Uu]/, $.call),
+        ",",
+        alias($._srh_report, $.address),
+        " ",
+        optional(seq(repeat1(alias($._srh_option, $.option)), " ")),
+
+        $.field,
+        repeat(seq(",", $.field)),
+        " ",
+        $.search_param,
+        repeat(seq("/", $.search_param)),
+        " ",
+        optional(
+          seq(
+            delimited_content(
+              ",",
+              optional($._variable_definition),
+              optional($._variable_definition),
+              $._variable_definition,
+            ),
+            " ",
+          ),
+        ),
+      ),
+
+    _srh_report: ($) =>
+      choice(
+        field("report", $.string_literal),
+        seq(
+          field("drawer", $.string_literal),
+          ",",
+          field("report", choice($.string_literal, $.numeric_literal)),
+        ),
+        seq(
+          field("cabinet", choice($.string_literal, $.numeric_literal)),
+          ",",
+          field(
+            "drawer",
+            choice($.string_literal, alias(/[A-Fa-f]/, $.identifier)),
+          ),
+          ",",
+          delimited_content(
+            ",",
+            optional(
+              field("report", choice($.string_literal, $.numeric_literal)),
+            ),
+            optional(field("start_line", $.numeric_literal)),
+            optional(field("num_lines", $.numeric_literal)),
+            field("missing_goto", $.label),
+          ),
+        ),
+      ),
+
+    _srh_option: ($) =>
+      choice(
+        seq(/[@]/, "(", $.character, ")"),
+        seq(/[LlUu]/, "(", $.line_type, ")"),
+        seq(/[TtYy]/, optional(seq("(", $.line_type, ")"))),
+        seq(/[Cc]/, "(", /[FfLlSs]/, ")"),
+        seq(/[Ee]/, "(", $.numeric_literal, ")"),
+        seq(/[BbQq]/, optional(seq("(", $.numeric_literal, ")"))),
+        seq(
+          /[Rr]/,
+          choice($.numeric_range, $.numeric_literal),
+          repeat(seq(",", choice($.numeric_range, $.numeric_literal))),
+        ),
+        /[AaDdFfHhNnPpSs@/]/,
+      ),
   },
 });

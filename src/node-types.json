@@ -1,5 +1,83 @@
 [
   {
+    "type": "address",
+    "named": true,
+    "fields": {
+      "cabinet": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "numeric_literal",
+            "named": true
+          },
+          {
+            "type": "string_literal",
+            "named": true
+          }
+        ]
+      },
+      "drawer": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "string_literal",
+            "named": true
+          }
+        ]
+      },
+      "missing_goto": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "label",
+            "named": true
+          }
+        ]
+      },
+      "num_lines": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "numeric_literal",
+            "named": true
+          }
+        ]
+      },
+      "report": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "numeric_literal",
+            "named": true
+          },
+          {
+            "type": "string_literal",
+            "named": true
+          }
+        ]
+      },
+      "start_line": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "numeric_literal",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "array_index",
     "named": true,
     "fields": {},
@@ -56,6 +134,25 @@
         },
         {
           "type": "numbered_variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "field",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "numeric_range",
+          "named": true
+        },
+        {
+          "type": "string_literal",
           "named": true
         }
       ]
@@ -168,6 +265,56 @@
     }
   },
   {
+    "type": "option",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "character",
+          "named": true
+        },
+        {
+          "type": "line_type",
+          "named": true
+        },
+        {
+          "type": "numeric_literal",
+          "named": true
+        },
+        {
+          "type": "numeric_range",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "search_param",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "line_type",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "separator",
     "named": true,
     "extra": true,
@@ -204,6 +351,124 @@
     }
   },
   {
+    "type": "srh",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "address",
+          "named": true
+        },
+        {
+          "type": "array_index",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "env_variable",
+          "named": true
+        },
+        {
+          "type": "field",
+          "named": true
+        },
+        {
+          "type": "global_variable",
+          "named": true
+        },
+        {
+          "type": "named_variable",
+          "named": true
+        },
+        {
+          "type": "numbered_variable",
+          "named": true
+        },
+        {
+          "type": "option",
+          "named": true
+        },
+        {
+          "type": "search_param",
+          "named": true
+        },
+        {
+          "type": "substring",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "sru",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "address",
+          "named": true
+        },
+        {
+          "type": "array_index",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "env_variable",
+          "named": true
+        },
+        {
+          "type": "field",
+          "named": true
+        },
+        {
+          "type": "global_variable",
+          "named": true
+        },
+        {
+          "type": "named_variable",
+          "named": true
+        },
+        {
+          "type": "numbered_variable",
+          "named": true
+        },
+        {
+          "type": "option",
+          "named": true
+        },
+        {
+          "type": "search_param",
+          "named": true
+        },
+        {
+          "type": "substring",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "statement",
     "named": true,
     "fields": {},
@@ -225,6 +490,14 @@
         },
         {
           "type": "ldv",
+          "named": true
+        },
+        {
+          "type": "srh",
+          "named": true
+        },
+        {
+          "type": "sru",
           "named": true
         },
         {
@@ -353,6 +626,10 @@
     "named": false
   },
   {
+    "type": "/",
+    "named": false
+  },
+  {
     "type": ";",
     "named": false
   },
@@ -393,6 +670,10 @@
     "named": true
   },
   {
+    "type": "identifier",
+    "named": true
+  },
+  {
     "type": "integer",
     "named": true
   },
@@ -402,6 +683,10 @@
   },
   {
     "type": "label",
+    "named": true
+  },
+  {
+    "type": "line_type",
     "named": true
   },
   {
@@ -418,10 +703,6 @@
   },
   {
     "type": "operator",
-    "named": true
-  },
-  {
-    "type": "option",
     "named": true
   },
   {
