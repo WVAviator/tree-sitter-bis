@@ -16,7 +16,7 @@ IF Statement
         (named_variable)
         (operator)
         (string_literal)
-        (label_reference
+        (goto_reference
           (keyword)
           (numeric_literal)
         )
@@ -24,7 +24,7 @@ IF Statement
       (branch
         (gto
           (call)
-          (label_reference)
+          (goto_reference)
         )
       )
     )

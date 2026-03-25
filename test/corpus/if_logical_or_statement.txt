@@ -20,7 +20,7 @@ IF Logical OR Statement
       (branch
         (gto
           (call)
-          (label_reference)
+          (goto_reference)
         )
       )
     )

@@ -16,12 +16,12 @@ IF Computed GTO Statement
         (named_variable)
         (operator)
         (integer)
-        (label_reference)
+        (goto_reference)
         (integer)
-        (label_reference)
+        (goto_reference)
         (integer)
         (integer)
-        (label_reference)
+        (goto_reference)
       )
     )
     (stmt_terminator)
@@ -35,13 +35,13 @@ IF Computed GTO Statement
         (numbered_variable)
         (operator)
         (integer)
-        (label_reference
+        (goto_reference
           (keyword)
           (operator)
           (numeric_literal)
         )
         (integer)
-        (label_reference
+        (goto_reference
           (keyword)
         )
       )

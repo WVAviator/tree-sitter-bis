@@ -15,7 +15,7 @@ GTO Statement
 
     (gto
       (call)
-      (label_reference
+      (goto_reference
         (keyword)
         (named_variable)
       )
@@ -29,7 +29,7 @@ GTO Statement
 
     (gto
       (call)
-      (label_reference
+      (goto_reference
         (keyword)
         report: (numeric_literal)
       )
@@ -43,7 +43,7 @@ GTO Statement
 
     (gto
       (call)
-      (label_reference)
+      (goto_reference)
     )
 
     (stmt_terminator)
@@ -54,7 +54,7 @@ GTO Statement
 
     (gto
       (call)
-      (label_reference
+      (goto_reference
         (keyword)
         line_count: (numeric_literal)
       )

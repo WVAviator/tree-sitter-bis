@@ -1,0 +1,75 @@
+=================
+CALL Statement
+=================
+
+@call 100 (v101,'hokey','pokey') .
+@call,044,E,142 099 (<status>i6,rnmsnd(-2),rnm(-3),rnmrcv(-4)) .
+@CALL,"BIS_Script" 0001 (*<p1>,*<p2>) .
+
+---
+
+(source_file
+  (statement
+    (stmt_prefix)
+    (call_subroutine
+      (call)
+      (label_reference)
+      (subroutine_parameter
+        (numbered_variable)
+      )
+      (subroutine_parameter
+        (string_literal)
+      )
+      (subroutine_parameter
+        (string_literal)
+      )
+    )
+    (stmt_terminator)
+  )
+
+  (statement
+    (stmt_prefix)
+    (call_subroutine
+      (call)
+      (address
+        (numeric_literal)
+        (identifier)
+        (numeric_literal)
+      )
+      (label_reference)
+      (subroutine_parameter
+        (named_variable)
+        (type)
+      )
+      (subroutine_parameter
+        (call)
+        (integer)
+      )
+      (subroutine_parameter
+        (call)
+        (integer)
+      )
+      (subroutine_parameter
+        (call)
+        (integer)
+      )
+    )
+    (stmt_terminator)
+  )
+
+  (statement
+    (stmt_prefix)
+    (call_subroutine
+      (call)
+      (address)
+      (label_reference)
+      (subroutine_parameter
+        (named_variable)
+      )
+      (subroutine_parameter
+        (named_variable)
+      )
+    )
+    (stmt_terminator)
+  )
+)

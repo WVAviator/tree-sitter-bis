@@ -17,6 +17,7 @@
 
 (label) @label
 (label_reference) @label
+(goto_reference) @label
 
 (call) @keyword
 
@@ -40,3 +41,5 @@
 (character) @character
 
 (option) @attribute
+(js_function) @function
+(subroutine_parameter) @variable.parameter

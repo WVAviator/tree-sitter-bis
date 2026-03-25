@@ -21,13 +21,13 @@ IF Basic Statement
       (branch
         (gto
           (call)
-          (label_reference)
+          (goto_reference)
         )
       )
       (branch
         (gto
           (call)
-          (label_reference)
+          (goto_reference)
         )
       )
     )
@@ -52,7 +52,7 @@ IF Basic Statement
       (branch
         (gto
           (call)
-          (label_reference)
+          (goto_reference)
         )
       )
     )
@@ -76,13 +76,13 @@ IF Basic Statement
         )
         (gto
           (call)
-          (label_reference)
+          (goto_reference)
         )
       )
       (branch
         (gto
           (call)
-          (label_reference)
+          (goto_reference)
         )
       )
     )

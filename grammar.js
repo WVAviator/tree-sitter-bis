@@ -26,6 +26,7 @@ const IMPLEMENTED_CALLS = new Set([
   "DEC",
   "IF",
   "CHG",
+  "CALL",
 ]);
 
 function get_calls() {
@@ -78,8 +79,13 @@ export default grammar({
 
     // `label` A number identifying the statement line.
     // Use three or four-character, zero-filled labels (e.g., `@0003`) for easier script maintenance.
-    label: ($) => token(seq(/\d{3,4}/, optional(":"))),
-    label_reference: ($) =>
+    label: ($) =>
+      seq(
+        /\d{3,4}/,
+        optional(seq(":", optional($._subroutine_parameter_list))),
+      ),
+    label_reference: ($) => token(/\d{3,4}/),
+    goto_reference: ($) =>
       choice(
         /\d{3,4}/,
         $._variable,
@@ -121,6 +127,7 @@ export default grammar({
         $.inc,
         $.dec,
         $.chg,
+        $.call_subroutine,
         $._generic_statement,
       ),
 
@@ -260,23 +267,24 @@ export default grammar({
     // Can be just a report name, drawer name with report, or all three named or unnamed
     address: ($) =>
       choice(
-        field("report", $.string_literal),
+        field("report", $._data_name),
         seq(
-          field("drawer", $.string_literal),
+          field("drawer", $._data_name),
           ",",
-          field("report", choice($.string_literal, $.numeric_literal)),
+          field("report", choice($._data_name, $.numeric_literal)),
         ),
         seq(
-          field("cabinet", choice($.string_literal, $.numeric_literal)),
+          field("cabinet", choice($._data_name, $.numeric_literal)),
           ",",
           field(
             "drawer",
-            choice($.string_literal, alias(/[A-Fa-f]/, $.identifier)),
+            choice($._data_name, alias(/[A-Fa-f]/, $.identifier)),
           ),
           ",",
-          field("report", choice($.string_literal, $.numeric_literal)),
+          field("report", choice($._data_name, $.numeric_literal)),
         ),
       ),
+    _data_name: ($) => alias(token(seq("'", /[^']*/, "'")), $.string_literal),
 
     // Many commands have options which are sequences of characters
     option: ($) => /[A-Za-z@/]/,
@@ -409,7 +417,7 @@ export default grammar({
             ),
             optional(field("start_line", $.numeric_literal)),
             optional(field("num_lines", $.numeric_literal)),
-            field("missing_goto", $.label_reference),
+            field("missing_goto", $.goto_reference),
           ),
         ),
       ),
@@ -432,7 +440,7 @@ export default grammar({
 
     // GTO Statement
 
-    gto: ($) => seq(alias(/[Gg][Tt][Oo]/, $.call), " ", $.label_reference, " "),
+    gto: ($) => seq(alias(/[Gg][Tt][Oo]/, $.call), " ", $.goto_reference, " "),
 
     // INC Statement
 
@@ -502,7 +510,7 @@ export default grammar({
             repeat1(
               seq(
                 ",",
-                choice($._value_definition, seq("(", $.label_reference, ")")),
+                choice($._value_definition, seq("(", $.goto_reference, ")")),
               ),
             ),
             repeat1(
@@ -583,5 +591,43 @@ export default grammar({
       ),
 
     _chg_call: ($) => alias(/[Cc][Hh][Gg]/, $.call),
+
+    // CALL - Call Subroutine
+
+    // @CALL[,c,d,r] lab ([p,...,p]) .    Unregistered subroutine call
+    // @CALL,"name" lab ([p,...,p])  .    Registered subroutine call
+    call_subroutine: ($) =>
+      seq(
+        $._call_call,
+        optional(seq(",", choice($.address, $._call_subroutine))),
+        " ",
+        choice(seq($.label_reference, optional("*")), $.js_function),
+        " ",
+        $._subroutine_parameter_list,
+        " ",
+      ),
+
+    _call_call: ($) => alias(/[Cc][Aa][Ll][Ll]/, $.call),
+    _call_subroutine: ($) => alias(token(seq('"', /[^"]+/, '"')), $.address),
+    js_function: ($) => token(/[A-Za-z].*\(\)/),
+
+    _subroutine_parameter_list: ($) =>
+      seq(
+        "(",
+        optional(
+          seq($.subroutine_parameter, repeat(seq(",", $.subroutine_parameter))),
+        ),
+        ")",
+      ),
+
+    subroutine_parameter: ($) =>
+      choice(
+        $._variable_definition,
+        seq("*", $._variable_definition),
+        $.string_literal,
+        seq(alias(/[Rr][Nn][Mm]/, $.call), "(-", $.integer, ")"),
+        seq(alias(/[Rr][Nn][Mm][Ss][Nn][Dd]/, $.call), "(-", $.integer, ")"),
+        seq(alias(/[Rr][Nn][Mm][Rr][Cc][Vv]/, $.call), "(-", $.integer, ")"),
+      ),
   },
 });
