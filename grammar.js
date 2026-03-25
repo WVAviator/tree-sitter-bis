@@ -17,7 +17,15 @@ function ci(str) {
   );
 }
 
-const IMPLEMENTED_CALLS = new Set(["LDV", "SRH", "SRU", "GTO", "INC", "DEC"]);
+const IMPLEMENTED_CALLS = new Set([
+  "LDV",
+  "SRH",
+  "SRU",
+  "GTO",
+  "INC",
+  "DEC",
+  "IF",
+]);
 
 function get_calls() {
   return ALL_CALLS.filter((call) => !IMPLEMENTED_CALLS.has(call)).map(ci);
@@ -60,7 +68,7 @@ export default grammar({
         $.stmt_prefix,
         optional($.label),
         repeat(" "),
-        repeat($._contents),
+        choice(repeat($._contents), $.if),
         $.stmt_terminator,
         optional($.comment),
       ),
@@ -82,9 +90,9 @@ export default grammar({
     comment: (_) => prec(-1, seq(/[^\n]+/, /\n/)),
 
     _contents: ($) =>
-      choice($.ldv, $.srh, $.sru, $.gto, $.inc, $.dec, $._generic_stmt),
+      choice($.ldv, $.srh, $.sru, $.gto, $.inc, $.dec, $._generic_statement),
 
-    _generic_stmt: ($) =>
+    _generic_statement: ($) =>
       prec(-1, seq($.call, choice(",", " "), repeat(seq($.stmt_group, " ")))),
 
     stmt_group: ($) =>
@@ -107,7 +115,6 @@ export default grammar({
           $.numeric_literal,
           $.integer,
           $.float,
-          ";",
           $.operator,
           $.character,
         ),
@@ -150,6 +157,15 @@ export default grammar({
         $._variable_definition,
         $.reserved_word,
         $.constant,
+      ),
+
+    expression: ($) =>
+      seq(
+        $._value_definition,
+        optional(" "),
+        $.operator,
+        optional(" "),
+        $._value_definition,
       ),
 
     // Variables
@@ -437,6 +453,69 @@ export default grammar({
         $._variable,
         repeat(seq(",", $._variable)),
         " ",
+      ),
+
+    // IF Statement
+
+    if: ($) => choice($._if_basic),
+
+    condition: ($) =>
+      seq($._if_basic_statement, " ", repeat(seq($._if_basic_statement, " "))),
+    branch: ($) => repeat1($._contents),
+
+    _if_basic: ($) =>
+      seq(
+        $.condition,
+        $.branch,
+        ";",
+        choice(
+          seq(" ", repeat($._if_basic_statement), $.branch),
+          optional(" "),
+        ),
+      ),
+
+    _if_call: ($) => alias(/[Ii][Ff]/, $.call),
+
+    _if_basic_statement: ($) =>
+      seq(
+        $._if_call,
+        optional(seq(",", repeat1($._if_option))),
+        " ",
+        alias($._if_expression, $.expression),
+      ),
+
+    _if_expression: ($) =>
+      seq(
+        $._value_definition,
+        optional(" "),
+        $._if_operator,
+        optional(" "),
+        $._value_definition,
+      ),
+
+    _if_operator: ($) =>
+      alias(
+        choice(
+          seq(
+            /[Nn][Oo][Tt]/,
+            choice("=", "<", ">", /[Ee][Qq]/, /[Ll][Tt]/, /[Gg][Tt]/),
+          ),
+          "=",
+          "<",
+          ">",
+          /[Ee][Qq]/,
+          /[Ll][Tt]/,
+          /[Gg][Tt]/,
+          /[Gg][Ee]/,
+          /[Ll][Ee]/,
+          /[Nn][Ee]/,
+        ),
+        $.operator,
+      ),
+    _if_option: ($) =>
+      alias(
+        choice(/[CcSs]/, seq(/[Dd]/, alias(/[0-9]{1,2}/, "date_format_id"))),
+        $.option,
       ),
   },
 });

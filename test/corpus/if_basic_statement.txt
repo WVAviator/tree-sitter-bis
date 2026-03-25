@@ -1,0 +1,97 @@
+===================
+IF Basic Statement
+===================
+
+@if user$ EQ newuser gto 002 ; gto 001 .
+@if v1 EQ a if v2 EQ b gto 001 ; .
+@if v1 EQ 2 ldv v3=4 gto 001 ; gto 002 .
+
+---
+
+(source_file
+  (statement
+    (stmt_prefix)
+    (if
+      (condition
+        (call)
+        (expression
+          (reserved_word)
+          (operator)
+          (constant)
+        )
+      )
+      (branch
+        (gto
+          (call)
+          (label_reference)
+        )
+      )
+      (branch
+        (gto
+          (call)
+          (label_reference)
+        )
+      )
+    )
+    (stmt_terminator)
+  )
+
+  (statement
+    (stmt_prefix)
+    (if
+      (condition
+        (call)
+        (expression
+          (numbered_variable)
+          (operator)
+          (constant)
+        )
+        (call)
+        (expression
+          (numbered_variable)
+          (operator)
+          (constant)
+        )
+      )
+      (branch
+        (gto
+          (call)
+          (label_reference)
+        )
+      )
+    )
+    (stmt_terminator)
+  )
+
+  (statement
+    (stmt_prefix)
+    (if
+      (condition
+        (call)
+        (expression
+          (numbered_variable)
+          (operator)
+          (integer)
+        )
+      )
+      (branch
+        (ldv
+          (call)
+          (numbered_variable)
+          (integer)
+        )
+        (gto
+          (call)
+          (label_reference)
+        )
+      )
+      (branch
+        (gto
+          (call)
+          (label_reference)
+        )
+      )
+    )
+    (stmt_terminator)
+  )
+)
