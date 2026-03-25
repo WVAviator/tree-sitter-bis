@@ -4,42 +4,55 @@ CHG Statement
 
 @chg <commission> <sales> * <percent> .
 @chg input$ <month>i2,<day>i2,<year>i2 .
+@    CHG <recs>i6 <lln> - 6 .                       Number of total activations
 
 ---
 
 (source_file
   (statement
     (stmt_prefix)
-    (call)
-    (stmt_group
+      (chg
+        (call)
+        (named_variable)
+        (expression
+          (named_variable)
+          (operator)
+          (named_variable)
+        )
+      )
+
+    (stmt_terminator)
+  )
+
+  (statement
+    (stmt_prefix)
+    (chg
+      (call)
+      (reserved_word)
       (named_variable)
-    )
-    (stmt_group
+      (type)
       (named_variable)
-    )
-    (stmt_group
-      (operator)
-    )
-    (stmt_group
+      (type)
       (named_variable)
+      (type)
     )
     (stmt_terminator)
   )
 
   (statement
     (stmt_prefix)
-    (call)
-    (stmt_group
-      (reserved_word)
-    )
-    (stmt_group
-      (named_variable)
-      (type)
-      (named_variable)
-      (type)
-      (named_variable)
-      (type)
-    )
+      (chg
+        (call)
+        (named_variable)
+        (type)
+        (expression
+          (named_variable)
+          (operator)
+          (integer)
+        )
+      )
+
     (stmt_terminator)
+    (comment)
   )
 )

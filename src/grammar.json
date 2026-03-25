@@ -516,10 +516,6 @@
           },
           {
             "type": "PATTERN",
-            "value": "[cC][hH][gG]"
-          },
-          {
-            "type": "PATTERN",
             "value": "[cC][lL][kK]"
           },
           {
@@ -1295,6 +1291,10 @@
         {
           "type": "SYMBOL",
           "name": "dec"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "chg"
         },
         {
           "type": "SYMBOL",
@@ -4863,6 +4863,111 @@
       },
       "named": true,
       "value": "option"
+    },
+    "chg": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_chg_fmt1"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_chg_fmt2"
+        }
+      ]
+    },
+    "_chg_fmt1": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_chg_call"
+        },
+        {
+          "type": "STRING",
+          "value": " "
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_variable_definition"
+        },
+        {
+          "type": "STRING",
+          "value": " "
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_value_definition"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "expression"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": " "
+        }
+      ]
+    },
+    "_chg_fmt2": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_chg_call"
+        },
+        {
+          "type": "STRING",
+          "value": " "
+        },
+        {
+          "type": "SYMBOL",
+          "name": "reserved_word"
+        },
+        {
+          "type": "STRING",
+          "value": " "
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_variable_definition"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ","
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_variable_definition"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": " "
+        }
+      ]
+    },
+    "_chg_call": {
+      "type": "ALIAS",
+      "content": {
+        "type": "PATTERN",
+        "value": "[Cc][Hh][Gg]"
+      },
+      "named": true,
+      "value": "call"
     }
   },
   "extras": [

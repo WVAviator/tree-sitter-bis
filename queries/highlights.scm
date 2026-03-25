@@ -21,6 +21,7 @@
 (call) @keyword
 
 (reserved_word) @constant.builtin
+(constant) @constant
 
 (named_variable) @variable
 (global_variable) @variable

@@ -25,6 +25,7 @@ const IMPLEMENTED_CALLS = new Set([
   "INC",
   "DEC",
   "IF",
+  "CHG",
 ]);
 
 function get_calls() {
@@ -112,7 +113,16 @@ export default grammar({
     comment: (_) => prec(-1, seq(/[^\n]+/, /\n/)),
 
     _contents: ($) =>
-      choice($.ldv, $.srh, $.sru, $.gto, $.inc, $.dec, $._generic_statement),
+      choice(
+        $.ldv,
+        $.srh,
+        $.sru,
+        $.gto,
+        $.inc,
+        $.dec,
+        $.chg,
+        $._generic_statement,
+      ),
 
     _generic_statement: ($) =>
       prec(-1, seq($.call, choice(",", " "), repeat(seq($.stmt_group, " ")))),
@@ -544,5 +554,34 @@ export default grammar({
         choice(/[CcSs]/, seq(/[Dd]/, alias(/[0-9]{1,2}/, "date_format_id"))),
         $.option,
       ),
+
+    // CHG - Change Variable
+
+    // @CHG v {exp|vld} .
+    // @CHG rw v[,v,...,v] .
+    chg: ($) => choice($._chg_fmt1, $._chg_fmt2),
+
+    _chg_fmt1: ($) =>
+      seq(
+        $._chg_call,
+        " ",
+        $._variable_definition,
+        " ",
+        choice($._value_definition, $.expression),
+        " ",
+      ),
+
+    _chg_fmt2: ($) =>
+      seq(
+        $._chg_call,
+        " ",
+        $.reserved_word,
+        " ",
+        $._variable_definition,
+        repeat(seq(",", $._variable_definition)),
+        " ",
+      ),
+
+    _chg_call: ($) => alias(/[Cc][Hh][Gg]/, $.call),
   },
 });
