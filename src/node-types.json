@@ -141,29 +141,6 @@
     "fields": {}
   },
   {
-    "type": "condition",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "call",
-          "named": true
-        },
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "option",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "dec",
     "named": true,
     "fields": {},
@@ -281,6 +258,10 @@
           "named": true
         },
         {
+          "type": "label_reference",
+          "named": true
+        },
+        {
           "type": "named_variable",
           "named": true
         },
@@ -333,32 +314,7 @@
   {
     "type": "gto",
     "named": true,
-    "fields": {
-      "line_count": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "numeric_literal",
-            "named": true
-          }
-        ]
-      },
-      "report": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "numeric_literal",
-            "named": true
-          },
-          {
-            "type": "string_literal",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": true,
@@ -368,31 +324,7 @@
           "named": true
         },
         {
-          "type": "env_variable",
-          "named": true
-        },
-        {
-          "type": "global_variable",
-          "named": true
-        },
-        {
-          "type": "keyword",
-          "named": true
-        },
-        {
           "type": "label_reference",
-          "named": true
-        },
-        {
-          "type": "named_variable",
-          "named": true
-        },
-        {
-          "type": "numbered_variable",
-          "named": true
-        },
-        {
-          "type": "numeric_literal",
           "named": true
         }
       ]
@@ -412,10 +344,6 @@
         },
         {
           "type": "call",
-          "named": true
-        },
-        {
-          "type": "condition",
           "named": true
         },
         {
@@ -467,6 +395,70 @@
         },
         {
           "type": "reserved_word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "label_reference",
+    "named": true,
+    "fields": {
+      "line_count": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "numeric_literal",
+            "named": true
+          }
+        ]
+      },
+      "report": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "numeric_literal",
+            "named": true
+          },
+          {
+            "type": "string_literal",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "env_variable",
+          "named": true
+        },
+        {
+          "type": "global_variable",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        },
+        {
+          "type": "named_variable",
+          "named": true
+        },
+        {
+          "type": "numbered_variable",
+          "named": true
+        },
+        {
+          "type": "numeric_literal",
+          "named": true
+        },
+        {
+          "type": "operator",
           "named": true
         }
       ]
@@ -964,10 +956,6 @@
     "named": false
   },
   {
-    "type": "+",
-    "named": false
-  },
-  {
     "type": ",",
     "named": false
   },
@@ -1037,10 +1025,6 @@
   },
   {
     "type": "label",
-    "named": true
-  },
-  {
-    "type": "label_reference",
     "named": true
   },
   {

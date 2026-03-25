@@ -1,0 +1,29 @@
+=========================
+IF Logical OR Statement
+=========================
+
+@if <menu> EQ 2,4 gto 010 ;.
+
+---
+
+(source_file
+  (statement
+    (stmt_prefix)
+    (if
+      (call)
+      (expression
+        (named_variable)
+        (operator)
+        (integer)
+        (integer)
+      )
+      (branch
+        (gto
+          (call)
+          (label_reference)
+        )
+      )
+    )
+    (stmt_terminator)
+  )
+)

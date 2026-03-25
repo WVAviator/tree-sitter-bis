@@ -78,7 +78,29 @@ export default grammar({
     // `label` A number identifying the statement line.
     // Use three or four-character, zero-filled labels (e.g., `@0003`) for easier script maintenance.
     label: ($) => token(seq(/\d{3,4}/, optional(":"))),
-    label_reference: ($) => token(/\d{3,4}/),
+    label_reference: ($) =>
+      choice(
+        /\d{3,4}/,
+        $._variable,
+        delimited_content(
+          ",",
+          alias(/[Ee][Nn][Dd]/, $.keyword),
+          optional(choice($.numeric_literal, $._variable)),
+          optional(choice($.numeric_literal, $._variable)),
+          choice($.numeric_literal, $._variable),
+        ),
+        seq(
+          alias(/[Ll][Ii][Nn]/, $.keyword),
+          optional(" "),
+          optional(alias(choice("+", "-"), $.operator)),
+          field("line_count", $.numeric_literal),
+        ),
+        seq(
+          alias(/[Rr][Pp][Xx]/, $.keyword),
+          " ",
+          field("report", choice($.numeric_literal, $.string_literal)),
+        ),
+      ),
 
     // `call` The function call — an abbreviation for the operation name.
     // All calls stored in constants.js and mapped through case-insensitive function
@@ -400,32 +422,7 @@ export default grammar({
 
     // GTO Statement
 
-    gto: ($) =>
-      seq(
-        alias(/[Gg][Tt][Oo]/, $.call),
-        " ",
-        choice(
-          choice($.label_reference, $._variable),
-          delimited_content(
-            ",",
-            alias(/[Ee][Nn][Dd]/, $.keyword),
-            optional(choice($.numeric_literal, $._variable)),
-            optional(choice($.numeric_literal, $._variable)),
-            choice($.numeric_literal, $._variable),
-          ),
-          seq(
-            alias(/[Ll][Ii][Nn]/, $.keyword),
-            optional(choice("+", "-")),
-            field("line_count", $.numeric_literal),
-          ),
-          seq(
-            alias(/[Rr][Pp][Xx]/, $.keyword),
-            " ",
-            field("report", choice($.numeric_literal, $.string_literal)),
-          ),
-        ),
-        " ",
-      ),
+    gto: ($) => seq(alias(/[Gg][Tt][Oo]/, $.call), " ", $.label_reference, " "),
 
     // INC Statement
 
@@ -457,31 +454,30 @@ export default grammar({
 
     // IF Statement
 
-    if: ($) => choice($._if_basic),
-
-    condition: ($) =>
-      seq($._if_basic_statement, " ", repeat(seq($._if_basic_statement, " "))),
-    branch: ($) => repeat1($._contents),
-
-    _if_basic: ($) =>
-      seq(
-        $.condition,
-        $.branch,
-        ";",
-        choice(
-          seq(" ", repeat($._if_basic_statement), $.branch),
-          optional(" "),
-        ),
-      ),
-
-    _if_call: ($) => alias(/[Ii][Ff]/, $.call),
-
-    _if_basic_statement: ($) =>
+    // @IF[,o] val1 op val2 stmt1 [.] ; stmt2 .
+    // @IF[,o] val1 op val2,val3[,val4,...,valn] stmt1 [.] ; stmt2 .
+    // @IF[,o] val1 op val2 & op val3 [& op val4 ... & op valn] stmt1 [.] ; stmt2 .
+    // @IF[,o] val1 op val2,(lab)[,val3,(lab),...,valn,(lab)] ; stmt1 .
+    if: ($) =>
       seq(
         $._if_call,
         optional(seq(",", repeat1($._if_option))),
         " ",
         alias($._if_expression, $.expression),
+        " ",
+        repeat(
+          seq(
+            $._if_call,
+            optional(seq(",", repeat1($._if_option))),
+            " ",
+            alias($._if_expression, $.expression),
+            " ",
+          ),
+        ),
+        optional($.branch),
+        // optional(seq(optional(" "), ".", " ")),
+        ";",
+        choice(seq(" ", $.branch), optional(" ")),
       ),
 
     _if_expression: ($) =>
@@ -491,6 +487,37 @@ export default grammar({
         $._if_operator,
         optional(" "),
         $._value_definition,
+        optional(
+          choice(
+            repeat1(
+              seq(
+                ",",
+                choice($._value_definition, seq("(", $.label_reference, ")")),
+              ),
+            ),
+            repeat1(
+              seq(
+                $._if_and_operator,
+                $._if_operator,
+                optional(" "),
+                $._value_definition,
+              ),
+            ),
+          ),
+        ),
+      ),
+
+    branch: ($) => repeat1($._contents),
+
+    _if_call: ($) => alias(/[Ii][Ff]/, $.call),
+
+    _if_and_operator: (_) =>
+      token(
+        seq(
+          /[ ]*/, // optional space before
+          "&",
+          /[ ]*/, // optional space after
+        ),
       ),
 
     _if_operator: ($) =>

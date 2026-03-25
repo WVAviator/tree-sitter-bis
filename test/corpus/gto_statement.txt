@@ -15,8 +15,10 @@ GTO Statement
 
     (gto
       (call)
-      (keyword)
-      (named_variable)
+      (label_reference
+        (keyword)
+        (named_variable)
+      )
     )
 
     (stmt_terminator)
@@ -27,8 +29,10 @@ GTO Statement
 
     (gto
       (call)
-      (keyword)
-      report: (numeric_literal)
+      (label_reference
+        (keyword)
+        report: (numeric_literal)
+      )
     )
 
     (stmt_terminator)
@@ -50,8 +54,10 @@ GTO Statement
 
     (gto
       (call)
-      (keyword)
-      line_count: (numeric_literal)
+      (label_reference
+        (keyword)
+        line_count: (numeric_literal)
+      )
     )
 
     (stmt_terminator)

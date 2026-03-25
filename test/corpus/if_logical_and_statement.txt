@@ -1,0 +1,31 @@
+==========================
+IF Logical AND Statement
+==========================
+
+@if,c v1 GT 0 & LT 100 gto 003 ; .
+
+---
+
+(source_file
+  (statement
+    (stmt_prefix)
+    (if
+      (call)
+      (option)
+      (expression
+        (numbered_variable)
+        (operator)
+        (integer)
+        (operator)
+        (integer)
+      )
+      (branch
+        (gto
+          (call)
+          (label_reference)
+        )
+      )
+    )
+    (stmt_terminator)
+  )
+)

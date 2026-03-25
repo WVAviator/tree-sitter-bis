@@ -12,13 +12,11 @@ IF Basic Statement
   (statement
     (stmt_prefix)
     (if
-      (condition
-        (call)
-        (expression
-          (reserved_word)
-          (operator)
-          (constant)
-        )
+      (call)
+      (expression
+        (reserved_word)
+        (operator)
+        (constant)
       )
       (branch
         (gto
@@ -39,19 +37,17 @@ IF Basic Statement
   (statement
     (stmt_prefix)
     (if
-      (condition
-        (call)
-        (expression
-          (numbered_variable)
-          (operator)
-          (constant)
-        )
-        (call)
-        (expression
-          (numbered_variable)
-          (operator)
-          (constant)
-        )
+      (call)
+      (expression
+        (numbered_variable)
+        (operator)
+        (constant)
+      )
+      (call)
+      (expression
+        (numbered_variable)
+        (operator)
+        (constant)
       )
       (branch
         (gto
@@ -66,13 +62,11 @@ IF Basic Statement
   (statement
     (stmt_prefix)
     (if
-      (condition
-        (call)
-        (expression
-          (numbered_variable)
-          (operator)
-          (integer)
-        )
+      (call)
+      (expression
+        (numbered_variable)
+        (operator)
+        (integer)
       )
       (branch
         (ldv

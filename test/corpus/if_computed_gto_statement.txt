@@ -1,0 +1,51 @@
+==========================
+IF Computed GTO Statement
+==========================
+
+@if <total> EQ 30,(001),40,(002),50,60,(003) ; .
+@if v2 EQ 4,(lin +2),5,(end) ; .
+
+---
+
+(source_file
+  (statement
+    (stmt_prefix)
+    (if
+      (call)
+      (expression
+        (named_variable)
+        (operator)
+        (integer)
+        (label_reference)
+        (integer)
+        (label_reference)
+        (integer)
+        (integer)
+        (label_reference)
+      )
+    )
+    (stmt_terminator)
+  )
+
+  (statement
+    (stmt_prefix)
+    (if
+      (call)
+      (expression
+        (numbered_variable)
+        (operator)
+        (integer)
+        (label_reference
+          (keyword)
+          (operator)
+          (numeric_literal)
+        )
+        (integer)
+        (label_reference
+          (keyword)
+        )
+      )
+    )
+    (stmt_terminator)
+  )
+)

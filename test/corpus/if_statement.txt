@@ -1,0 +1,55 @@
+==============
+IF Statement
+==============
+
+@    IF <name> = '',(LIN1) ; GTO 0077 .             Do we have a name?
+@    IF <st> = '' LDV <st>a4=0000 ;.
+
+---
+
+(source_file
+  (statement
+    (stmt_prefix)
+    (if
+      (call)
+      (expression
+        (named_variable)
+        (operator)
+        (string_literal)
+        (label_reference
+          (keyword)
+          (numeric_literal)
+        )
+      )
+      (branch
+        (gto
+          (call)
+          (label_reference)
+        )
+      )
+    )
+    (stmt_terminator)
+    (comment)
+  )
+  (statement
+    (stmt_prefix)
+    (if
+      (call)
+      (expression
+        (named_variable)
+        (operator)
+        (string_literal)
+      )
+      (branch
+        (ldv
+          (call)
+          (named_variable)
+          (type)
+          (integer)
+        )
+      )
+    )
+    (stmt_terminator)
+  )
+)
+
