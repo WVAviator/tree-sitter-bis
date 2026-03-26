@@ -27,6 +27,7 @@ const IMPLEMENTED_CALLS = new Set([
   "IF",
   "CHG",
   "CALL",
+  "RETURN",
 ]);
 
 function get_calls() {
@@ -84,7 +85,7 @@ export default grammar({
         /\d{3,4}/,
         optional(seq(":", optional($._subroutine_parameter_list))),
       ),
-    label_reference: ($) => token(/\d{3,4}/),
+    label_reference: ($) => choice(/\d{3,4}/, $._variable),
     goto_reference: ($) =>
       choice(
         /\d{3,4}/,
@@ -127,6 +128,7 @@ export default grammar({
         $.inc,
         $.dec,
         $.chg,
+        $.return,
         $.call_subroutine,
         $._generic_statement,
       ),
@@ -628,6 +630,15 @@ export default grammar({
         seq(alias(/[Rr][Nn][Mm]/, $.call), "(-", $.integer, ")"),
         seq(alias(/[Rr][Nn][Mm][Ss][Nn][Dd]/, $.call), "(-", $.integer, ")"),
         seq(alias(/[Rr][Nn][Mm][Rr][Cc][Vv]/, $.call), "(-", $.integer, ")"),
+      ),
+
+    // RETURN - Return from Subroutine
+
+    return: ($) =>
+      seq(
+        alias(/[Rr][Ee][Tt][Uu][Rr][Nn]/, $.call),
+        optional(seq(",", $.label_reference)),
+        " ",
       ),
   },
 });

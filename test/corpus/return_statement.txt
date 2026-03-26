@@ -1,0 +1,29 @@
+=================
+Return Statement
+=================
+
+@    RETURN .                                Return to calling program
+@ RETURN,<lbl> .
+
+---
+
+(source_file
+  (statement
+    (stmt_prefix)
+    (return
+      (call)
+    )
+    (stmt_terminator)
+    (comment)
+  )
+  (statement
+    (stmt_prefix)
+    (return
+      (call)
+      (label_reference
+        (named_variable)
+      )
+    )
+    (stmt_terminator)
+  )
+)
