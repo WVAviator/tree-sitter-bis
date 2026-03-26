@@ -1071,10 +1071,6 @@
           },
           {
             "type": "PATTERN",
-            "value": "[rR][nN][mM]"
-          },
-          {
-            "type": "PATTERN",
             "value": "[rR][pP][wW]"
           },
           {
@@ -1318,6 +1314,10 @@
         {
           "type": "SYMBOL",
           "name": "return"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "rnm"
         },
         {
           "type": "SYMBOL",
@@ -1727,6 +1727,10 @@
           {
             "type": "STRING",
             "value": "."
+          },
+          {
+            "type": "STRING",
+            "value": " "
           },
           {
             "type": "PATTERN",
@@ -3085,6 +3089,14 @@
           }
         },
         {
+          "type": "FIELD",
+          "name": "report",
+          "content": {
+            "type": "SYMBOL",
+            "name": "report_reference"
+          }
+        },
+        {
           "type": "SEQ",
           "members": [
             {
@@ -3293,6 +3305,22 @@
           "value": "identifier"
         }
       ]
+    },
+    "report_reference": {
+      "type": "TOKEN",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "PATTERN",
+            "value": "\\-[0-9]"
+          },
+          {
+            "type": "PATTERN",
+            "value": "\\-1[0-6]"
+          }
+        ]
+      }
     },
     "ldv": {
       "type": "CHOICE",
@@ -3879,6 +3907,14 @@
           }
         },
         {
+          "type": "FIELD",
+          "name": "report",
+          "content": {
+            "type": "SYMBOL",
+            "name": "report_reference"
+          }
+        },
+        {
           "type": "SEQ",
           "members": [
             {
@@ -3989,6 +4025,125 @@
                       "type": "BLANK"
                     }
                   ]
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SEQ",
+                      "members": [
+                        {
+                          "type": "STRING",
+                          "value": ","
+                        },
+                        {
+                          "type": "SEQ",
+                          "members": [
+                            {
+                              "type": "CHOICE",
+                              "members": [
+                                {
+                                  "type": "FIELD",
+                                  "name": "start_line",
+                                  "content": {
+                                    "type": "SYMBOL",
+                                    "name": "numeric_literal"
+                                  }
+                                },
+                                {
+                                  "type": "BLANK"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "CHOICE",
+                              "members": [
+                                {
+                                  "type": "SEQ",
+                                  "members": [
+                                    {
+                                      "type": "STRING",
+                                      "value": ","
+                                    },
+                                    {
+                                      "type": "SEQ",
+                                      "members": [
+                                        {
+                                          "type": "CHOICE",
+                                          "members": [
+                                            {
+                                              "type": "FIELD",
+                                              "name": "num_lines",
+                                              "content": {
+                                                "type": "SYMBOL",
+                                                "name": "numeric_literal"
+                                              }
+                                            },
+                                            {
+                                              "type": "BLANK"
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "type": "CHOICE",
+                                          "members": [
+                                            {
+                                              "type": "SEQ",
+                                              "members": [
+                                                {
+                                                  "type": "STRING",
+                                                  "value": ","
+                                                },
+                                                {
+                                                  "type": "FIELD",
+                                                  "name": "missing_goto",
+                                                  "content": {
+                                                    "type": "SYMBOL",
+                                                    "name": "goto_reference"
+                                                  }
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "type": "BLANK"
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "BLANK"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "FIELD",
+                  "name": "report",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "report_reference"
+                  }
                 },
                 {
                   "type": "CHOICE",
@@ -5329,6 +5484,53 @@
               "type": "BLANK"
             }
           ]
+        },
+        {
+          "type": "STRING",
+          "value": " "
+        }
+      ]
+    },
+    "rnm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[Rr][Nn][Mm]"
+          },
+          "named": true,
+          "value": "call"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": ","
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "address"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": " "
+        },
+        {
+          "type": "SYMBOL",
+          "name": "report_reference"
         },
         {
           "type": "STRING",

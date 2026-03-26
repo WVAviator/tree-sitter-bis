@@ -1,0 +1,58 @@
+=====================
+SRH Report Reference
+=====================
+
+@    SRH,-6 D 2-1  ,P .                             Primary Request
+@    SRH,-2,,,0060 DF 13-3  ,<seq> .                Records for this sequence
+
+---
+
+(source_file
+  (statement
+    (stmt_prefix)
+    (srh
+      (call)
+      (address
+        report: (report_reference)
+      )
+      (option)
+      (field
+        (numeric_range
+          (numeric_literal)
+          (numeric_literal)
+        )
+      )
+      (search_param
+        (line_type)
+        (identifier)
+      )
+    )
+    (stmt_terminator)
+    (comment)
+  )
+
+  (statement
+    (stmt_prefix)
+    (srh
+      (call)
+      (address
+        report: (report_reference)
+        missing_goto: (goto_reference)
+      )
+      (option)
+      (option)
+      (field
+        (numeric_range
+          (numeric_literal)
+          (numeric_literal)
+        )
+      )
+      (search_param
+        (line_type)
+        (named_variable)
+      )
+    )
+    (stmt_terminator)
+    (comment)
+  )
+)

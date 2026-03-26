@@ -43,3 +43,4 @@
 (option) @attribute
 (js_function) @function
 (subroutine_parameter) @variable.parameter
+(report_reference) @variable.builtin

@@ -28,6 +28,7 @@ const IMPLEMENTED_CALLS = new Set([
   "CHG",
   "CALL",
   "RETURN",
+  "RNM",
 ]);
 
 function get_calls() {
@@ -129,6 +130,7 @@ export default grammar({
         $.dec,
         $.chg,
         $.return,
+        $.rnm,
         $.call_subroutine,
         $._generic_statement,
       ),
@@ -187,7 +189,8 @@ export default grammar({
     operator: ($) => token(choice(/[=+\-/*]/, /\*\*/, /\/\//)),
     character: ($) => token(prec(-1, /[^\s.,]/)),
 
-    line_type: ($) => token(choice("|", "*", ".", /[A-Za-z]/, /\$[TtAaBb]/)),
+    line_type: ($) =>
+      token(choice("|", "*", ".", " ", /[A-Za-z]/, /\$[TtAaBb]/)),
 
     // Essentially a RHS to an expression
     _value_definition: ($) =>
@@ -270,6 +273,7 @@ export default grammar({
     address: ($) =>
       choice(
         field("report", $._data_name),
+        field("report", $.report_reference),
         seq(
           field("drawer", $._data_name),
           ",",
@@ -304,6 +308,8 @@ export default grammar({
         $.string_literal,
         alias(/[A-Za-z0-9@]+/, $.identifier),
       ),
+
+    report_reference: ($) => token(choice(/\-[0-9]/, /\-1[0-6]/)),
 
     // Specific calls
 
@@ -399,6 +405,7 @@ export default grammar({
     _srh_report: ($) =>
       choice(
         field("report", $.string_literal),
+        field("report", $.report_reference),
         seq(
           field("drawer", $.string_literal),
           ",",
@@ -417,6 +424,15 @@ export default grammar({
             optional(
               field("report", choice($.string_literal, $.numeric_literal)),
             ),
+            optional(field("start_line", $.numeric_literal)),
+            optional(field("num_lines", $.numeric_literal)),
+            field("missing_goto", $.goto_reference),
+          ),
+        ),
+        seq(
+          delimited_content(
+            ",",
+            field("report", $.report_reference),
             optional(field("start_line", $.numeric_literal)),
             optional(field("num_lines", $.numeric_literal)),
             field("missing_goto", $.goto_reference),
@@ -638,6 +654,17 @@ export default grammar({
       seq(
         alias(/[Rr][Ee][Tt][Uu][Rr][Nn]/, $.call),
         optional(seq(",", $.label_reference)),
+        " ",
+      ),
+
+    // RNM - Rename
+
+    rnm: ($) =>
+      seq(
+        alias(/[Rr][Nn][Mm]/, $.call),
+        optional(seq(",", $.address)),
+        " ",
+        $.report_reference,
         " ",
       ),
   },

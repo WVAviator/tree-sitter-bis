@@ -60,6 +60,10 @@
             "named": true
           },
           {
+            "type": "report_reference",
+            "named": true
+          },
+          {
             "type": "string_literal",
             "named": true
           }
@@ -130,6 +134,10 @@
         },
         {
           "type": "return",
+          "named": true
+        },
+        {
+          "type": "rnm",
           "named": true
         },
         {
@@ -769,6 +777,29 @@
     }
   },
   {
+    "type": "rnm",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "address",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "report_reference",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "search_param",
     "named": true,
     "fields": {},
@@ -1011,6 +1042,10 @@
         },
         {
           "type": "return",
+          "named": true
+        },
+        {
+          "type": "rnm",
           "named": true
         },
         {
@@ -1291,6 +1326,10 @@
   },
   {
     "type": "operator",
+    "named": true
+  },
+  {
+    "type": "report_reference",
     "named": true
   },
   {
