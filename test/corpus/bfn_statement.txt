@@ -1,0 +1,79 @@
+==============
+BFN Statement
+==============
+
+@bfn,'drawerb' y 2-2,5-6 |,sh,970101/r,sh,020101/y,,1 .
+@    BFN,-0,,LIN2 Q 45-8  ,<zdate> ,<ln>i6 .        Find today's Zulu date
+
+---
+
+(source_file
+  (statement
+    (stmt_prefix)
+    (bfn
+      (call)
+      (address
+        report: (string_literal)
+      )
+      (option)
+      (field
+        (numeric_range
+          (numeric_literal)
+          (numeric_literal)
+        )
+      )
+      (field
+        (numeric_range
+          (numeric_literal)
+          (numeric_literal)
+        )
+      )
+      (search_param
+        (line_type)
+        (identifier)
+        (identifier)
+      )
+      (search_param
+        (line_type)
+        (identifier)
+        (identifier)
+      )
+      (search_param
+        (line_type)
+        (identifier)
+      )
+    )
+    (stmt_terminator)
+  )
+
+  (statement
+    (stmt_prefix)
+    (bfn
+      (call)
+      (address
+        report: (report_reference)
+        missing_goto: (goto_reference
+          (keyword)
+          line_count: (numeric_literal)
+        )
+      )
+      (option)
+      (field
+        (numeric_range
+          (numeric_literal)
+          (numeric_literal)
+        )
+      )
+      (search_param
+        (line_type)
+        (named_variable)
+      )
+      (search_param
+        (named_variable)
+        (type)
+      )
+    )
+    (stmt_terminator)
+    (comment)
+  )
+)

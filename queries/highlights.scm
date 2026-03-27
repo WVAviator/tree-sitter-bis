@@ -44,3 +44,4 @@
 (js_function) @function
 (subroutine_parameter) @variable.parameter
 (report_reference) @variable.builtin
+(date_format_id) @constant

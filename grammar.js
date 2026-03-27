@@ -29,6 +29,7 @@ const IMPLEMENTED_CALLS = new Set([
   "CALL",
   "RETURN",
   "RNM",
+  "BFN",
 ]);
 
 function get_calls() {
@@ -129,9 +130,10 @@ export default grammar({
         $.inc,
         $.dec,
         $.chg,
+        $.call_subroutine,
         $.return,
         $.rnm,
-        $.call_subroutine,
+        $.bfn,
         $._generic_statement,
       ),
 
@@ -304,10 +306,12 @@ export default grammar({
 
     _parameter: ($) =>
       choice(
-        $._variable,
+        $._variable_definition,
         $.string_literal,
-        alias(/[A-Za-z0-9@]+/, $.identifier),
+        alias(/[A-Za-z0-9@=]+/, $.identifier),
       ),
+
+    date_format_id: ($) => /[0-2]?[0-9]/,
 
     report_reference: ($) => token(choice(/\-[0-9]/, /\-1[0-6]/)),
 
@@ -355,7 +359,6 @@ export default grammar({
         alias($._srh_report, $.address),
         " ",
         optional(seq(repeat1(alias($._srh_option, $.option)), " ")),
-
         $.field,
         repeat(seq(",", $.field)),
         " ",
@@ -577,7 +580,7 @@ export default grammar({
       ),
     _if_option: ($) =>
       alias(
-        choice(/[CcSs]/, seq(/[Dd]/, alias(/[0-9]{1,2}/, "date_format_id"))),
+        choice(/[CcSs]/, seq(/[Dd]/, alias(/[0-9]{1,2}/, $.date_format_id))),
         $.option,
       ),
 
@@ -666,6 +669,97 @@ export default grammar({
         " ",
         $.report_reference,
         " ",
+      ),
+
+    // BFN - Binary Find
+
+    bfn: ($) =>
+      seq(
+        alias(/[Bb][Ff][Nn]/, $.call),
+        ",",
+        alias($._bfn_report, $.address),
+        " ",
+        choice(repeat1($._bfn_option), /''/),
+        " ",
+        $.field,
+        repeat(seq(",", $.field)),
+        " ",
+        $.search_param,
+        repeat(
+          choice(
+            seq("/", $.search_param),
+            seq(" ,", alias($._bfn_search_param, $.search_param)),
+          ),
+        ),
+        " ",
+        optional(
+          seq(
+            delimited_content(
+              ",",
+              optional($._variable_definition),
+              optional($._variable_definition),
+              optional($._variable_definition), // Option O results in 3 extra variables here
+              optional($._variable_definition),
+              $._variable_definition,
+            ),
+            " ",
+          ),
+        ),
+      ),
+
+    _bfn_report: ($) =>
+      choice(
+        field("report", $.string_literal),
+        field("report", $.report_reference),
+        seq(
+          field("drawer", $.string_literal),
+          ",",
+          field("report", choice($.string_literal, $.numeric_literal)),
+        ),
+        seq(
+          field("cabinet", choice($.string_literal, $.numeric_literal)),
+          ",",
+          field(
+            "drawer",
+            choice($.string_literal, alias(/[A-Fa-f]/, $.identifier)),
+          ),
+          ",",
+          delimited_content(
+            ",",
+            optional(
+              field("report", choice($.string_literal, $.numeric_literal)),
+            ),
+            optional(field("start_line", $.numeric_literal)),
+            field("missing_goto", $.goto_reference),
+          ),
+        ),
+        seq(
+          delimited_content(
+            ",",
+            field("report", $.report_reference),
+            optional(field("start_line", $.numeric_literal)),
+            field("missing_goto", $.goto_reference),
+          ),
+        ),
+      ),
+
+    _bfn_option: ($) =>
+      alias(
+        choice(
+          seq(/[Ii]/, optional($.numeric_literal)),
+          seq(/[Yy]/, optional(seq("(", $.line_type, ")"))),
+          seq(/[Cc]/, "(", /[FfLlSs]/, ")"),
+          seq(/[Ff]/, $.numeric_literal, repeat(seq(",", $.numeric_literal))),
+          seq(/[Rr]/, $.numeric_range),
+          /[AaBbEeKkNnOoPpQqSsUuZz@/]/,
+        ),
+        $.option,
+      ),
+
+    _bfn_search_param: ($) =>
+      choice(
+        seq($._parameter, repeat(seq(",", optional($._parameter)))),
+        repeat1(seq(",", optional($._parameter))),
       ),
   },
 });

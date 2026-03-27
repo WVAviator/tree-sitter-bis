@@ -97,6 +97,65 @@
     }
   },
   {
+    "type": "bfn",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "address",
+          "named": true
+        },
+        {
+          "type": "array_index",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "env_variable",
+          "named": true
+        },
+        {
+          "type": "field",
+          "named": true
+        },
+        {
+          "type": "global_variable",
+          "named": true
+        },
+        {
+          "type": "named_variable",
+          "named": true
+        },
+        {
+          "type": "numbered_variable",
+          "named": true
+        },
+        {
+          "type": "option",
+          "named": true
+        },
+        {
+          "type": "search_param",
+          "named": true
+        },
+        {
+          "type": "substring",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "branch",
     "named": true,
     "fields": {},
@@ -104,6 +163,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "bfn",
+          "named": true
+        },
         {
           "type": "call",
           "named": true
@@ -529,6 +592,10 @@
           "named": true
         },
         {
+          "type": "date_format_id",
+          "named": true
+        },
+        {
           "type": "expression",
           "named": true
         },
@@ -743,7 +810,23 @@
           "named": true
         },
         {
+          "type": "env_variable",
+          "named": true
+        },
+        {
+          "type": "global_variable",
+          "named": true
+        },
+        {
           "type": "line_type",
+          "named": true
+        },
+        {
+          "type": "named_variable",
+          "named": true
+        },
+        {
+          "type": "numbered_variable",
           "named": true
         },
         {
@@ -808,6 +891,10 @@
       "required": false,
       "types": [
         {
+          "type": "array_index",
+          "named": true
+        },
+        {
           "type": "env_variable",
           "named": true
         },
@@ -833,6 +920,14 @@
         },
         {
           "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "substring",
+          "named": true
+        },
+        {
+          "type": "type",
           "named": true
         }
       ]
@@ -1000,6 +1095,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "bfn",
+          "named": true
+        },
         {
           "type": "call",
           "named": true
@@ -1217,6 +1316,10 @@
     "named": false
   },
   {
+    "type": " ,",
+    "named": false
+  },
+  {
     "type": "(",
     "named": false
   },
@@ -1278,7 +1381,7 @@
   },
   {
     "type": "date_format_id",
-    "named": false
+    "named": true
   },
   {
     "type": "env_variable",
