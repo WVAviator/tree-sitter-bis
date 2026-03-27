@@ -3,6 +3,7 @@ IF Logical OR Statement
 =========================
 
 @if <menu> EQ 2,4 gto 010 ;.
+@    IF <user> = SCHEDULER,BPORT,MAPCOORD LDV <user>a10=VIPS ;. System updates
 
 ---
 
@@ -26,4 +27,29 @@ IF Logical OR Statement
     )
     (stmt_terminator)
   )
+
+  (statement
+    (stmt_prefix)
+    (if
+      (call)
+      (expression
+        (named_variable)
+        (operator)
+        (constant)
+        (constant)
+        (constant)
+      )
+      (branch
+        (ldv
+          (call)
+          (named_variable)
+          (type)
+          (constant)
+        )
+      )
+    )
+    (stmt_terminator)
+    (comment)
+  )
+
 )

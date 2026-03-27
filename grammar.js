@@ -153,7 +153,7 @@ export default grammar({
       repeat1(
         choice(
           $._variable_definition,
-          $.reserved_word,
+          $._reserved_word_definition,
           $.numeric_range,
           $.keyword,
           $.string_literal,
@@ -202,7 +202,7 @@ export default grammar({
           $.integer,
           $.float,
           $._variable_definition,
-          $.reserved_word,
+          $._reserved_word_definition,
           $.constant,
         ),
       ),
@@ -229,7 +229,9 @@ export default grammar({
     array_index: ($) => seq("[", optional($.numeric_literal), "]"),
 
     reserved_word: ($) =>
-      seq(choice(...ALL_RESERVED_WORDS.map(ci)), "$", optional($.substring)),
+      token(seq(choice(...ALL_RESERVED_WORDS.map(ci)), "$")),
+    _reserved_word_definition: ($) =>
+      seq($.reserved_word, optional($.substring)),
 
     constant: ($) => token(/[A-Za-z]+[A-Za-z0-9]*/),
 
@@ -471,7 +473,15 @@ export default grammar({
       seq(
         alias(/[Ii][Nn][Cc]/, $.call),
         optional(
-          seq(",", choice($._variable, $.integer, $.float, $.reserved_word)),
+          seq(
+            ",",
+            choice(
+              $._variable,
+              $.integer,
+              $.float,
+              $._reserved_word_definition,
+            ),
+          ),
         ),
         " ",
         $._variable,
@@ -485,7 +495,15 @@ export default grammar({
       seq(
         alias(/[Dd][Ee][Cc]/, $.call),
         optional(
-          seq(",", choice($._variable, $.integer, $.float, $.reserved_word)),
+          seq(
+            ",",
+            choice(
+              $._variable,
+              $.integer,
+              $.float,
+              $._reserved_word_definition,
+            ),
+          ),
         ),
         " ",
         $._variable,
@@ -606,7 +624,7 @@ export default grammar({
       seq(
         $._chg_call,
         " ",
-        $.reserved_word,
+        $._reserved_word_definition,
         " ",
         $._variable_definition,
         repeat(seq(",", $._variable_definition)),
