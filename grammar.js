@@ -196,13 +196,15 @@ export default grammar({
 
     // Essentially a RHS to an expression
     _value_definition: ($) =>
-      choice(
-        $.string_literal,
-        $.integer,
-        $.float,
-        $._variable_definition,
-        $.reserved_word,
-        $.constant,
+      repeat1(
+        choice(
+          $.string_literal,
+          $.integer,
+          $.float,
+          $._variable_definition,
+          $.reserved_word,
+          $.constant,
+        ),
       ),
 
     expression: ($) =>
@@ -227,7 +229,7 @@ export default grammar({
     array_index: ($) => seq("[", optional($.numeric_literal), "]"),
 
     reserved_word: ($) =>
-      token(seq(choice(...ALL_RESERVED_WORDS.map(ci)), "$")),
+      seq(choice(...ALL_RESERVED_WORDS.map(ci)), "$", optional($.substring)),
 
     constant: ($) => token(/[A-Za-z]+[A-Za-z0-9]*/),
 

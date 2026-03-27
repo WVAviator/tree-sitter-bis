@@ -841,6 +841,21 @@
     }
   },
   {
+    "type": "reserved_word",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "substring",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "return",
     "named": true,
     "fields": {},
@@ -1320,6 +1335,10 @@
     "named": false
   },
   {
+    "type": "$",
+    "named": false
+  },
+  {
     "type": "(",
     "named": false
   },
@@ -1433,10 +1452,6 @@
   },
   {
     "type": "report_reference",
-    "named": true
-  },
-  {
-    "type": "reserved_word",
     "named": true
   },
   {
