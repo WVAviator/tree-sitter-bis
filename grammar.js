@@ -30,6 +30,7 @@ const IMPLEMENTED_CALLS = new Set([
   "RETURN",
   "RNM",
   "BFN",
+  "FDR",
 ]);
 
 function get_calls() {
@@ -134,6 +135,7 @@ export default grammar({
         $.return,
         $.rnm,
         $.bfn,
+        $.fdr,
         $._generic_statement,
       ),
 
@@ -414,32 +416,26 @@ export default grammar({
         field("report", $.string_literal),
         field("report", $.report_reference),
         seq(
-          field("drawer", $.string_literal),
-          ",",
-          field("report", choice($.string_literal, $.numeric_literal)),
-        ),
-        seq(
-          field("cabinet", choice($.string_literal, $.numeric_literal)),
-          ",",
-          field(
-            "drawer",
-            choice($.string_literal, alias(/[A-Fa-f]/, $.identifier)),
-          ),
-          ",",
           delimited_content(
             ",",
-            optional(
-              field("report", choice($.string_literal, $.numeric_literal)),
-            ),
+            field("report", choice($.report_reference, $.string_literal)),
             optional(field("start_line", $.numeric_literal)),
             optional(field("num_lines", $.numeric_literal)),
             field("missing_goto", $.goto_reference),
           ),
         ),
         seq(
+          field("cabinet", $.numeric_literal),
+          ",",
           delimited_content(
             ",",
-            field("report", $.report_reference),
+            field(
+              "drawer",
+              choice($.string_literal, alias(/[A-Fa-f]/, $.identifier)),
+            ),
+            optional(
+              field("report", choice($.string_literal, $.numeric_literal)),
+            ),
             optional(field("start_line", $.numeric_literal)),
             optional(field("num_lines", $.numeric_literal)),
             field("missing_goto", $.goto_reference),
@@ -705,12 +701,7 @@ export default grammar({
         repeat(seq(",", $.field)),
         " ",
         $.search_param,
-        repeat(
-          choice(
-            seq("/", $.search_param),
-            seq(" ,", alias($._bfn_search_param, $.search_param)),
-          ),
-        ),
+        repeat(seq("/", $.search_param)),
         " ",
         optional(
           seq(
@@ -732,31 +723,25 @@ export default grammar({
         field("report", $.string_literal),
         field("report", $.report_reference),
         seq(
-          field("drawer", $.string_literal),
-          ",",
-          field("report", choice($.string_literal, $.numeric_literal)),
-        ),
-        seq(
-          field("cabinet", choice($.string_literal, $.numeric_literal)),
-          ",",
-          field(
-            "drawer",
-            choice($.string_literal, alias(/[A-Fa-f]/, $.identifier)),
-          ),
-          ",",
           delimited_content(
             ",",
-            optional(
-              field("report", choice($.string_literal, $.numeric_literal)),
-            ),
+            field("report", choice($.report_reference, $.string_literal)),
             optional(field("start_line", $.numeric_literal)),
             field("missing_goto", $.goto_reference),
           ),
         ),
         seq(
+          field("cabinet", $.numeric_literal),
+          ",",
           delimited_content(
             ",",
-            field("report", $.report_reference),
+            field(
+              "drawer",
+              choice($.string_literal, alias(/[A-Fa-f]/, $.identifier)),
+            ),
+            optional(
+              field("report", choice($.string_literal, $.numeric_literal)),
+            ),
             optional(field("start_line", $.numeric_literal)),
             field("missing_goto", $.goto_reference),
           ),
@@ -780,6 +765,52 @@ export default grammar({
       choice(
         seq($._parameter, repeat(seq(",", optional($._parameter)))),
         repeat1(seq(",", optional($._parameter))),
+      ),
+
+    // FDR - Find and Read Line
+
+    //@FDR,c,d[,r,l,q,lab] o cc ltyp,p [vrpt,vlno,vcab,vdrw] .
+    fdr: ($) =>
+      seq(
+        alias(/[Ff][Dd][Rr]/, $.call),
+        ",",
+        alias($._srh_report, $.address),
+        " ",
+        choice(repeat1($._fdr_option), /''/),
+        " ",
+        $.field,
+        repeat(seq(",", $.field)),
+        " ",
+        $.search_param,
+        repeat(seq("/", $.search_param)),
+        " ",
+        optional(
+          seq(
+            delimited_content(
+              ",",
+              optional($._variable_definition),
+              optional($._variable_definition),
+              optional($._variable_definition),
+              $._variable_definition,
+            ),
+            " ",
+          ),
+        ),
+      ),
+
+    _fdr_option: ($) =>
+      alias(
+        choice(
+          seq(/[Yy]/, optional(seq("(", $.line_type, ")"))),
+          seq(/[Cc]/, "(", /[FfLlSs]/, ")"),
+          seq(
+            /[Rr]/,
+            choice($.numeric_range, $.numeric_literal),
+            repeat(seq(",", choice($.numeric_range, $.numeric_literal))),
+          ),
+          /[FfGgNn@/]/,
+        ),
+        $.option,
       ),
   },
 });

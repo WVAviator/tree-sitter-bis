@@ -1,0 +1,58 @@
+==============
+FDR Statement
+==============
+
+@    FDR,'FURLOUGH_PILOTS',,,0090 '' 2-10  ,<empnum> ,<wrl>i6 .
+@fdr,0,b '' 'stcd' |,ip <report>i6,<line>i6 .
+
+---
+
+(source_file
+  (statement
+    (stmt_prefix)
+    (fdr
+      (call)
+      (address
+        report: (string_literal)
+        missing_goto: (goto_reference)
+      )
+      (field
+        (numeric_range
+          (numeric_literal)
+          (numeric_literal)
+        )
+      )
+      (search_param
+        (line_type)
+        (named_variable)
+      )
+      (named_variable)
+      (type)
+    )
+    (stmt_terminator)
+  )
+
+  (statement
+    (stmt_prefix)
+    (fdr
+      (call)
+      (address
+        cabinet: (numeric_literal)
+        drawer: (identifier)
+      )
+      (field
+        (string_literal)
+      )
+      (search_param
+        (line_type)
+        (identifier)
+      )
+
+      (named_variable)
+      (type)
+      (named_variable)
+      (type)
+    )
+    (stmt_terminator)
+  )
+)

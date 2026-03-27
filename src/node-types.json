@@ -184,6 +184,10 @@
           "named": true
         },
         {
+          "type": "fdr",
+          "named": true
+        },
+        {
           "type": "gto",
           "named": true
         },
@@ -464,6 +468,65 @@
         },
         {
           "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "substring",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "fdr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "address",
+          "named": true
+        },
+        {
+          "type": "array_index",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "env_variable",
+          "named": true
+        },
+        {
+          "type": "field",
+          "named": true
+        },
+        {
+          "type": "global_variable",
+          "named": true
+        },
+        {
+          "type": "named_variable",
+          "named": true
+        },
+        {
+          "type": "numbered_variable",
+          "named": true
+        },
+        {
+          "type": "option",
+          "named": true
+        },
+        {
+          "type": "search_param",
           "named": true
         },
         {
@@ -1128,6 +1191,10 @@
           "named": true
         },
         {
+          "type": "fdr",
+          "named": true
+        },
+        {
           "type": "gto",
           "named": true
         },
@@ -1321,10 +1388,6 @@
   },
   {
     "type": " ",
-    "named": false
-  },
-  {
-    "type": " ,",
     "named": false
   },
   {

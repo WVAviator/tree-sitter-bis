@@ -68,10 +68,8 @@ BFN Statement
         (line_type)
         (named_variable)
       )
-      (search_param
-        (named_variable)
-        (type)
-      )
+      (named_variable)
+      (type)
     )
     (stmt_terminator)
     (comment)
