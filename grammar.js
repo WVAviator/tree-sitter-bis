@@ -87,7 +87,7 @@ export default grammar({
         /\d{3,4}/,
         optional(seq(":", optional($._subroutine_parameter_list))),
       ),
-    label_reference: ($) => choice(/\d{3,4}/, $._variable),
+    label_reference: ($) => choice(/\d{1,4}/, $._variable),
     goto_reference: ($) =>
       choice(
         /\d{3,4}/,

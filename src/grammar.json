@@ -198,7 +198,7 @@
       "members": [
         {
           "type": "PATTERN",
-          "value": "\\d{3,4}"
+          "value": "\\d{1,4}"
         },
         {
           "type": "SYMBOL",
