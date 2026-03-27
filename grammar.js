@@ -31,6 +31,7 @@ const IMPLEMENTED_CALLS = new Set([
   "RNM",
   "BFN",
   "FDR",
+  "RLN",
 ]);
 
 function get_calls() {
@@ -136,6 +137,7 @@ export default grammar({
         $.rnm,
         $.bfn,
         $.fdr,
+        $.rln,
         $._generic_statement,
       ),
 
@@ -812,6 +814,28 @@ export default grammar({
           /[FfGgNn@/]/,
         ),
         $.option,
+      ),
+
+    // RLN - Read Line Next
+
+    // @RLN[,l,lab] cc vdata .
+    rln: ($) =>
+      seq(
+        alias(/[Rr][Ll][Nn]/, $.call),
+        optional(
+          seq(
+            ",",
+            optional($.numeric_literal),
+            optional(seq(",", $.goto_reference)),
+          ),
+        ),
+        " ",
+        $.field,
+        repeat(seq(",", $.field)),
+        " ",
+        $._variable_definition,
+        repeat(seq(",", $._variable_definition)),
+        " ",
       ),
   },
 });
