@@ -3562,30 +3562,26 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "REPEAT1",
-                  "content": {
-                    "type": "ALIAS",
-                    "content": {
-                      "type": "SYMBOL",
-                      "name": "_srh_option"
-                    },
-                    "named": true,
-                    "value": "option"
-                  }
+              "type": "REPEAT1",
+              "content": {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_srh_option"
                 },
-                {
-                  "type": "STRING",
-                  "value": " "
-                }
-              ]
+                "named": true,
+                "value": "option"
+              }
             },
             {
-              "type": "BLANK"
+              "type": "PATTERN",
+              "value": "''"
             }
           ]
+        },
+        {
+          "type": "STRING",
+          "value": " "
         },
         {
           "type": "SYMBOL",
@@ -3759,30 +3755,26 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "REPEAT1",
-                  "content": {
-                    "type": "ALIAS",
-                    "content": {
-                      "type": "SYMBOL",
-                      "name": "_srh_option"
-                    },
-                    "named": true,
-                    "value": "option"
-                  }
+              "type": "REPEAT1",
+              "content": {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_srh_option"
                 },
-                {
-                  "type": "STRING",
-                  "value": " "
-                }
-              ]
+                "named": true,
+                "value": "option"
+              }
             },
             {
-              "type": "BLANK"
+              "type": "PATTERN",
+              "value": "''"
             }
           ]
+        },
+        {
+          "type": "STRING",
+          "value": " "
         },
         {
           "type": "SYMBOL",
