@@ -31,6 +31,32 @@
           }
         ]
       },
+      "line_number": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "env_variable",
+            "named": true
+          },
+          {
+            "type": "global_variable",
+            "named": true
+          },
+          {
+            "type": "named_variable",
+            "named": true
+          },
+          {
+            "type": "numbered_variable",
+            "named": true
+          },
+          {
+            "type": "numeric_literal",
+            "named": true
+          }
+        ]
+      },
       "missing_goto": {
         "multiple": false,
         "required": false,
@@ -45,6 +71,22 @@
         "multiple": false,
         "required": false,
         "types": [
+          {
+            "type": "env_variable",
+            "named": true
+          },
+          {
+            "type": "global_variable",
+            "named": true
+          },
+          {
+            "type": "named_variable",
+            "named": true
+          },
+          {
+            "type": "numbered_variable",
+            "named": true
+          },
           {
             "type": "numeric_literal",
             "named": true
@@ -73,6 +115,22 @@
         "multiple": false,
         "required": false,
         "types": [
+          {
+            "type": "env_variable",
+            "named": true
+          },
+          {
+            "type": "global_variable",
+            "named": true
+          },
+          {
+            "type": "named_variable",
+            "named": true
+          },
+          {
+            "type": "numbered_variable",
+            "named": true
+          },
           {
             "type": "numeric_literal",
             "named": true
@@ -197,6 +255,10 @@
         },
         {
           "type": "ldv",
+          "named": true
+        },
+        {
+          "type": "rdl",
           "named": true
         },
         {
@@ -916,6 +978,49 @@
     }
   },
   {
+    "type": "rdl",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "address",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "env_variable",
+          "named": true
+        },
+        {
+          "type": "field",
+          "named": true
+        },
+        {
+          "type": "global_variable",
+          "named": true
+        },
+        {
+          "type": "named_variable",
+          "named": true
+        },
+        {
+          "type": "numbered_variable",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "return",
     "named": true,
     "fields": {},
@@ -1271,6 +1376,10 @@
         },
         {
           "type": "ldv",
+          "named": true
+        },
+        {
+          "type": "rdl",
           "named": true
         },
         {

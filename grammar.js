@@ -32,6 +32,7 @@ const IMPLEMENTED_CALLS = new Set([
   "BFN",
   "FDR",
   "RLN",
+  "RDL",
 ]);
 
 function get_calls() {
@@ -138,6 +139,7 @@ export default grammar({
         $.bfn,
         $.fdr,
         $.rln,
+        $.rdl,
         $._generic_statement,
       ),
 
@@ -229,6 +231,7 @@ export default grammar({
 
     type: ($) =>
       token(prec(2, seq(/[afhiosAFHIOS]/, /\d{1,3}/, optional(/\.\d{1,2}/)))),
+    _type_ns: ($) => alias(token(prec(2, /[afhiosAFHIOS]/)), $.type),
     substring: ($) => seq("(", $.numeric_range, ")"),
     array_index: ($) => seq("[", optional($.numeric_literal), "]"),
 
@@ -259,6 +262,19 @@ export default grammar({
           optional($.type),
           optional($.array_index),
           optional($.substring),
+        ),
+      ),
+    _variable_definition_ns: ($) =>
+      prec.left(
+        2,
+        seq(
+          choice(
+            $.named_variable,
+            $.global_variable,
+            $.env_variable,
+            $.numbered_variable,
+          ),
+          optional($._type_ns),
         ),
       ),
 
@@ -422,8 +438,12 @@ export default grammar({
           delimited_content(
             ",",
             field("report", choice($.report_reference, $.string_literal)),
-            optional(field("start_line", $.numeric_literal)),
-            optional(field("num_lines", $.numeric_literal)),
+            optional(
+              field("start_line", choice($.numeric_literal, $._variable)),
+            ),
+            optional(
+              field("num_lines", choice($.numeric_literal, $._variable)),
+            ),
             field("missing_goto", $.goto_reference),
           ),
         ),
@@ -439,8 +459,12 @@ export default grammar({
             optional(
               field("report", choice($.string_literal, $.numeric_literal)),
             ),
-            optional(field("start_line", $.numeric_literal)),
-            optional(field("num_lines", $.numeric_literal)),
+            optional(
+              field("start_line", choice($.numeric_literal, $._variable)),
+            ),
+            optional(
+              field("num_lines", choice($.numeric_literal, $._variable)),
+            ),
             field("missing_goto", $.goto_reference),
           ),
         ),
@@ -729,7 +753,9 @@ export default grammar({
           delimited_content(
             ",",
             field("report", choice($.report_reference, $.string_literal)),
-            optional(field("start_line", $.numeric_literal)),
+            optional(
+              field("start_line", choice($.numeric_literal, $._variable)),
+            ),
             field("missing_goto", $.goto_reference),
           ),
         ),
@@ -836,6 +862,46 @@ export default grammar({
         $._variable_definition,
         repeat(seq(",", $._variable_definition)),
         " ",
+      ),
+
+    // RDL - Read Line
+
+    // @RDL,c,d,r,l[,lab] cc vdata .
+    rdl: ($) =>
+      seq(
+        alias(/[Rr][Dd][Ll]/, $.call),
+        ",",
+        alias($._rdl_address, $.address),
+        " ",
+        $.field,
+        repeat(seq(",", $.field)),
+        " ",
+        $._variable_definition_ns,
+        repeat(seq(",", $._variable_definition_ns)),
+        " ",
+      ),
+
+    _rdl_address: ($) =>
+      choice(
+        seq(
+          field("report", choice($.report_reference, $.string_literal)),
+          ",",
+          field("line_number", choice($.numeric_literal, $._variable)),
+          optional(seq(",", field("missing_goto", $.goto_reference))),
+        ),
+        seq(
+          field("cabinet", $.numeric_literal),
+          ",",
+          field(
+            "drawer",
+            choice($.string_literal, alias(/[A-Fa-f]/, $.identifier)),
+          ),
+          ",",
+          field("report", choice($.numeric_literal, $.string_literal)),
+          ",",
+          field("line_number", choice($.numeric_literal, $._variable)),
+          optional(seq(",", field("missing_goto", $.goto_reference))),
+        ),
       ),
   },
 });

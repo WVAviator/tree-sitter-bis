@@ -1,0 +1,61 @@
+=============
+RDL Statment
+=============
+
+@    RDL,048,F,10,6 2-255 <tabstops>s .             Tabstops for Flex database
+@    RDL,-8,<readln>,0020 11-10,69-7 <empnum>a,<adat>a .
+
+---
+
+(source_file
+  (statement
+    (stmt_prefix)
+    (rdl
+      (call)
+      (address
+        cabinet: (numeric_literal)
+        drawer: (identifier)
+        report: (numeric_literal)
+        line_number: (numeric_literal)
+      )
+      (field
+        (numeric_range
+          (numeric_literal)
+          (numeric_literal)
+        )
+      )
+      (named_variable)
+      (type)
+    )
+    (stmt_terminator)
+    (comment)
+  )
+  (statement
+    (stmt_prefix)
+    (rdl
+      (call)
+      (address
+        report: (report_reference)
+        line_number: (named_variable)
+        missing_goto: (goto_reference)
+      )
+      (field
+        (numeric_range
+          (numeric_literal)
+          (numeric_literal)
+        )
+      )
+      (field
+        (numeric_range
+          (numeric_literal)
+          (numeric_literal)
+        )
+      )
+      (named_variable)
+      (type)
+      (named_variable)
+      (type)
+    )
+    (stmt_terminator)
+  )
+)
