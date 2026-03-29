@@ -16,8 +16,8 @@ SRU Statement
       (address
         cabinet: (numeric_literal)
         drawer: (identifier)
-        missing_goto: (goto_reference)
       )
+      missing_goto: (goto_reference)
       (option)
       (option)
       (option)

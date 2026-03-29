@@ -37,8 +37,8 @@ SRH Report Reference
       (call)
       (address
         report: (report_reference)
-        missing_goto: (goto_reference)
       )
+      missing_goto: (goto_reference)
       (option)
       (option)
       (field

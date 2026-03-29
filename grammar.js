@@ -33,6 +33,7 @@ const IMPLEMENTED_CALLS = new Set([
   "FDR",
   "RLN",
   "RDL",
+  "RER",
 ]);
 
 function get_calls() {
@@ -93,7 +94,7 @@ export default grammar({
     label_reference: ($) => choice(/\d{1,4}/, $._variable),
     goto_reference: ($) =>
       choice(
-        /\d{3,4}/,
+        /\d{1,4}/,
         $._variable,
         delimited_content(
           ",",
@@ -140,6 +141,7 @@ export default grammar({
         $.fdr,
         $.rln,
         $.rdl,
+        $.rer,
         $._generic_statement,
       ),
 
@@ -297,25 +299,50 @@ export default grammar({
     // Represents a cdr (cabinet-drawer-report) location
     // Can be just a report name, drawer name with report, or all three named or unnamed
     address: ($) =>
+      prec.right(
+        2,
+        choice(
+          field("report", choice($._data_name, $.report_reference)),
+          seq(
+            field(
+              "cabinet",
+              choice($.numeric_literal, $._variable, $.reserved_word),
+            ),
+            ",",
+            field(
+              "drawer",
+              choice(
+                alias(/[A-Ia-i]/, $.identifier),
+                $._variable,
+                $.reserved_word,
+              ),
+            ),
+            ",",
+            optional(
+              field(
+                "report",
+                choice($.numeric_literal, $._variable, $.report_reference),
+              ),
+            ),
+          ),
+        ),
+      ),
+
+    // These can't be followed by other params - must end with whitespace
+    _short_address: ($) =>
       choice(
-        field("report", $._data_name),
-        field("report", $.report_reference),
         seq(
           field("drawer", $._data_name),
           ",",
-          field("report", choice($._data_name, $.numeric_literal)),
+          field("report", $._variable, $.numeric_literal),
         ),
         seq(
-          field("cabinet", choice($._data_name, $.numeric_literal)),
+          field("cabinet", choice($.numeric_literal, $._variable)),
           ",",
-          field(
-            "drawer",
-            choice($._data_name, alias(/[A-Fa-f]/, $.identifier)),
-          ),
-          ",",
-          field("report", choice($._data_name, $.numeric_literal)),
+          field("drawer", choice(alias(/[A-Ia-i]/, $.identifier), $._variable)),
         ),
       ),
+
     _data_name: ($) => alias(token(seq("'", /[^']*/, "'")), $.string_literal),
 
     // Many commands have options which are sequences of characters
@@ -380,7 +407,7 @@ export default grammar({
       seq(
         alias(/[Ss][Rr][Hh]/, $.call),
         ",",
-        alias($._srh_report, $.address),
+        $._srh_report,
         " ",
         choice(repeat1(alias($._srh_option, $.option)), /''/),
         " ",
@@ -407,7 +434,7 @@ export default grammar({
       seq(
         alias(/[Ss][Rr][Uu]/, $.call),
         ",",
-        alias($._srh_report, $.address),
+        $._srh_report,
         " ",
         choice(repeat1(alias($._srh_option, $.option)), /''/),
         " ",
@@ -432,42 +459,14 @@ export default grammar({
 
     _srh_report: ($) =>
       choice(
-        field("report", $.string_literal),
-        field("report", $.report_reference),
-        seq(
-          delimited_content(
-            ",",
-            field("report", choice($.report_reference, $.string_literal)),
-            optional(
-              field("start_line", choice($.numeric_literal, $._variable)),
-            ),
-            optional(
-              field("num_lines", choice($.numeric_literal, $._variable)),
-            ),
-            field("missing_goto", $.goto_reference),
-          ),
-        ),
-        seq(
-          field("cabinet", $.numeric_literal),
+        delimited_content(
           ",",
-          delimited_content(
-            ",",
-            field(
-              "drawer",
-              choice($.string_literal, alias(/[A-Fa-f]/, $.identifier)),
-            ),
-            optional(
-              field("report", choice($.string_literal, $.numeric_literal)),
-            ),
-            optional(
-              field("start_line", choice($.numeric_literal, $._variable)),
-            ),
-            optional(
-              field("num_lines", choice($.numeric_literal, $._variable)),
-            ),
-            field("missing_goto", $.goto_reference),
-          ),
+          $.address,
+          optional(field("start_line", choice($.numeric_literal, $._variable))),
+          optional(field("num_lines", choice($.numeric_literal, $._variable))),
+          field("missing_goto", $.goto_reference),
         ),
+        alias($._short_address, $.address),
       ),
 
     _srh_option: ($) =>
@@ -720,7 +719,7 @@ export default grammar({
       seq(
         alias(/[Bb][Ff][Nn]/, $.call),
         ",",
-        alias($._bfn_report, $.address),
+        $._bfn_report,
         " ",
         choice(repeat1($._bfn_option), /''/),
         " ",
@@ -747,34 +746,13 @@ export default grammar({
 
     _bfn_report: ($) =>
       choice(
-        field("report", $.string_literal),
-        field("report", $.report_reference),
-        seq(
-          delimited_content(
-            ",",
-            field("report", choice($.report_reference, $.string_literal)),
-            optional(
-              field("start_line", choice($.numeric_literal, $._variable)),
-            ),
-            field("missing_goto", $.goto_reference),
-          ),
-        ),
-        seq(
-          field("cabinet", $.numeric_literal),
+        delimited_content(
           ",",
-          delimited_content(
-            ",",
-            field(
-              "drawer",
-              choice($.string_literal, alias(/[A-Fa-f]/, $.identifier)),
-            ),
-            optional(
-              field("report", choice($.string_literal, $.numeric_literal)),
-            ),
-            optional(field("start_line", $.numeric_literal)),
-            field("missing_goto", $.goto_reference),
-          ),
+          $.address,
+          optional(field("start_line", choice($.numeric_literal, $._variable))),
+          field("missing_goto", $.goto_reference),
         ),
+        alias($._short_address, $.address),
       ),
 
     _bfn_option: ($) =>
@@ -803,7 +781,7 @@ export default grammar({
       seq(
         alias(/[Ff][Dd][Rr]/, $.call),
         ",",
-        alias($._srh_report, $.address),
+        $._srh_report,
         " ",
         choice(repeat1($._fdr_option), /''/),
         " ",
@@ -871,7 +849,7 @@ export default grammar({
       seq(
         alias(/[Rr][Dd][Ll]/, $.call),
         ",",
-        alias($._rdl_address, $.address),
+        $._rdl_address,
         " ",
         $.field,
         repeat(seq(",", $.field)),
@@ -882,26 +860,37 @@ export default grammar({
       ),
 
     _rdl_address: ($) =>
-      choice(
-        seq(
-          field("report", choice($.report_reference, $.string_literal)),
-          ",",
-          field("line_number", choice($.numeric_literal, $._variable)),
-          optional(seq(",", field("missing_goto", $.goto_reference))),
+      delimited_content(
+        ",",
+        $.address,
+        optional(field("line_number", choice($.numeric_literal, $._variable))),
+        field("missing_goto", $.goto_reference),
+      ),
+
+    // RER - Register Error Routine
+
+    // @RER[,c,d,r] lab .
+    // @RER[,c,d,r] lab[,opts] .
+    rer: ($) =>
+      seq(
+        alias(/[Rr][Ee][Rr]/, $.call),
+        optional(
+          seq(",", choice($.address, alias($._short_address, $.address))),
         ),
-        seq(
-          field("cabinet", $.numeric_literal),
-          ",",
-          field(
-            "drawer",
-            choice($.string_literal, alias(/[A-Fa-f]/, $.identifier)),
-          ),
-          ",",
-          field("report", choice($.numeric_literal, $.string_literal)),
-          ",",
-          field("line_number", choice($.numeric_literal, $._variable)),
-          optional(seq(",", field("missing_goto", $.goto_reference))),
+        " ",
+        $._rer_goto,
+        optional(seq(",", repeat1($._rer_option))),
+        " ",
+      ),
+
+    _rer_option: ($) => alias(/[CcJjHhPp]/, $.option),
+    _rer_goto: ($) =>
+      alias(
+        choice(
+          /\d{1,4}/,
+          seq(/[Ll][Ii][Nn]/, field("line_count", $.numeric_literal)),
         ),
+        $.goto_reference,
       ),
   },
 });

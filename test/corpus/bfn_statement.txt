@@ -52,10 +52,10 @@ BFN Statement
       (call)
       (address
         report: (report_reference)
-        missing_goto: (goto_reference
-          (keyword)
-          line_count: (numeric_literal)
-        )
+      )
+      missing_goto: (goto_reference
+        (keyword)
+        line_count: (numeric_literal)
       )
       (option)
       (field

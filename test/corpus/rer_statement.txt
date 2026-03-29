@@ -1,0 +1,24 @@
+==============
+RER Statement
+==============
+
+@    RER,050,I,23 1 .                               Register Error Routine
+
+---
+
+(source_file
+  (statement
+    (stmt_prefix)
+    (rer
+      (call)
+      (address
+        cabinet: (numeric_literal)
+        drawer: (identifier)
+        report: (numeric_literal)
+      )
+      (goto_reference)
+    )
+    (stmt_terminator)
+    (comment)
+  )
+)

@@ -8,11 +8,27 @@
         "required": false,
         "types": [
           {
+            "type": "env_variable",
+            "named": true
+          },
+          {
+            "type": "global_variable",
+            "named": true
+          },
+          {
+            "type": "named_variable",
+            "named": true
+          },
+          {
+            "type": "numbered_variable",
+            "named": true
+          },
+          {
             "type": "numeric_literal",
             "named": true
           },
           {
-            "type": "string_literal",
+            "type": "reserved_word",
             "named": true
           }
         ]
@@ -22,7 +38,27 @@
         "required": false,
         "types": [
           {
+            "type": "env_variable",
+            "named": true
+          },
+          {
+            "type": "global_variable",
+            "named": true
+          },
+          {
             "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "named_variable",
+            "named": true
+          },
+          {
+            "type": "numbered_variable",
+            "named": true
+          },
+          {
+            "type": "reserved_word",
             "named": true
           },
           {
@@ -31,72 +67,26 @@
           }
         ]
       },
-      "line_number": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "env_variable",
-            "named": true
-          },
-          {
-            "type": "global_variable",
-            "named": true
-          },
-          {
-            "type": "named_variable",
-            "named": true
-          },
-          {
-            "type": "numbered_variable",
-            "named": true
-          },
-          {
-            "type": "numeric_literal",
-            "named": true
-          }
-        ]
-      },
-      "missing_goto": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "goto_reference",
-            "named": true
-          }
-        ]
-      },
-      "num_lines": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "env_variable",
-            "named": true
-          },
-          {
-            "type": "global_variable",
-            "named": true
-          },
-          {
-            "type": "named_variable",
-            "named": true
-          },
-          {
-            "type": "numbered_variable",
-            "named": true
-          },
-          {
-            "type": "numeric_literal",
-            "named": true
-          }
-        ]
-      },
       "report": {
         "multiple": false,
         "required": false,
         "types": [
+          {
+            "type": "env_variable",
+            "named": true
+          },
+          {
+            "type": "global_variable",
+            "named": true
+          },
+          {
+            "type": "named_variable",
+            "named": true
+          },
+          {
+            "type": "numbered_variable",
+            "named": true
+          },
           {
             "type": "numeric_literal",
             "named": true
@@ -107,6 +97,37 @@
           },
           {
             "type": "string_literal",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "array_index",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "numeric_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "bfn",
+    "named": true,
+    "fields": {
+      "missing_goto": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "goto_reference",
             "named": true
           }
         ]
@@ -137,27 +158,7 @@
           }
         ]
       }
-    }
-  },
-  {
-    "type": "array_index",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "numeric_literal",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "bfn",
-    "named": true,
-    "fields": {},
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -259,6 +260,10 @@
         },
         {
           "type": "rdl",
+          "named": true
+        },
+        {
+          "type": "rer",
           "named": true
         },
         {
@@ -550,7 +555,70 @@
   {
     "type": "fdr",
     "named": true,
-    "fields": {},
+    "fields": {
+      "missing_goto": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "goto_reference",
+            "named": true
+          }
+        ]
+      },
+      "num_lines": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "env_variable",
+            "named": true
+          },
+          {
+            "type": "global_variable",
+            "named": true
+          },
+          {
+            "type": "named_variable",
+            "named": true
+          },
+          {
+            "type": "numbered_variable",
+            "named": true
+          },
+          {
+            "type": "numeric_literal",
+            "named": true
+          }
+        ]
+      },
+      "start_line": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "env_variable",
+            "named": true
+          },
+          {
+            "type": "global_variable",
+            "named": true
+          },
+          {
+            "type": "named_variable",
+            "named": true
+          },
+          {
+            "type": "numbered_variable",
+            "named": true
+          },
+          {
+            "type": "numeric_literal",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -980,7 +1048,44 @@
   {
     "type": "rdl",
     "named": true,
-    "fields": {},
+    "fields": {
+      "line_number": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "env_variable",
+            "named": true
+          },
+          {
+            "type": "global_variable",
+            "named": true
+          },
+          {
+            "type": "named_variable",
+            "named": true
+          },
+          {
+            "type": "numbered_variable",
+            "named": true
+          },
+          {
+            "type": "numeric_literal",
+            "named": true
+          }
+        ]
+      },
+      "missing_goto": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "goto_reference",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -1015,6 +1120,44 @@
         },
         {
           "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "rer",
+    "named": true,
+    "fields": {
+      "line_count": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "goto_reference",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "address",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "goto_reference",
+          "named": true
+        },
+        {
+          "type": "option",
           "named": true
         }
       ]
@@ -1207,7 +1350,70 @@
   {
     "type": "srh",
     "named": true,
-    "fields": {},
+    "fields": {
+      "missing_goto": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "goto_reference",
+            "named": true
+          }
+        ]
+      },
+      "num_lines": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "env_variable",
+            "named": true
+          },
+          {
+            "type": "global_variable",
+            "named": true
+          },
+          {
+            "type": "named_variable",
+            "named": true
+          },
+          {
+            "type": "numbered_variable",
+            "named": true
+          },
+          {
+            "type": "numeric_literal",
+            "named": true
+          }
+        ]
+      },
+      "start_line": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "env_variable",
+            "named": true
+          },
+          {
+            "type": "global_variable",
+            "named": true
+          },
+          {
+            "type": "named_variable",
+            "named": true
+          },
+          {
+            "type": "numbered_variable",
+            "named": true
+          },
+          {
+            "type": "numeric_literal",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -1266,7 +1472,70 @@
   {
     "type": "sru",
     "named": true,
-    "fields": {},
+    "fields": {
+      "missing_goto": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "goto_reference",
+            "named": true
+          }
+        ]
+      },
+      "num_lines": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "env_variable",
+            "named": true
+          },
+          {
+            "type": "global_variable",
+            "named": true
+          },
+          {
+            "type": "named_variable",
+            "named": true
+          },
+          {
+            "type": "numbered_variable",
+            "named": true
+          },
+          {
+            "type": "numeric_literal",
+            "named": true
+          }
+        ]
+      },
+      "start_line": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "env_variable",
+            "named": true
+          },
+          {
+            "type": "global_variable",
+            "named": true
+          },
+          {
+            "type": "named_variable",
+            "named": true
+          },
+          {
+            "type": "numbered_variable",
+            "named": true
+          },
+          {
+            "type": "numeric_literal",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -1380,6 +1649,10 @@
         },
         {
           "type": "rdl",
+          "named": true
+        },
+        {
+          "type": "rer",
           "named": true
         },
         {

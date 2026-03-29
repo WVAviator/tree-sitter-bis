@@ -14,8 +14,8 @@ FDR Statement
       (call)
       (address
         report: (string_literal)
-        missing_goto: (goto_reference)
       )
+      missing_goto: (goto_reference)
       (field
         (numeric_range
           (numeric_literal)

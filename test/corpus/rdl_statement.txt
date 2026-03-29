@@ -16,8 +16,8 @@ RDL Statment
         cabinet: (numeric_literal)
         drawer: (identifier)
         report: (numeric_literal)
-        line_number: (numeric_literal)
       )
+      line_number: (numeric_literal)
       (field
         (numeric_range
           (numeric_literal)
@@ -36,9 +36,9 @@ RDL Statment
       (call)
       (address
         report: (report_reference)
-        line_number: (named_variable)
-        missing_goto: (goto_reference)
       )
+      line_number: (named_variable)
+      missing_goto: (goto_reference)
       (field
         (numeric_range
           (numeric_literal)
