@@ -1,0 +1,22 @@
+==============
+RSR Statement
+==============
+
+@   RSR,'WEBLINKS' 1 .                             Related Links
+
+---
+
+(source_file
+  (statement
+    (stmt_prefix)
+    (rsr
+      (call)
+      (address
+        report: (string_literal)
+      )
+      (goto_reference)
+    )
+    (stmt_terminator)
+    (comment)
+  )
+)

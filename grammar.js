@@ -34,6 +34,7 @@ const IMPLEMENTED_CALLS = new Set([
   "RLN",
   "RDL",
   "RER",
+  "RSR",
 ]);
 
 function get_calls() {
@@ -142,6 +143,7 @@ export default grammar({
         $.rln,
         $.rdl,
         $.rer,
+        $.rsr,
         $._generic_statement,
       ),
 
@@ -891,6 +893,20 @@ export default grammar({
           seq(/[Ll][Ii][Nn]/, field("line_count", $.numeric_literal)),
         ),
         $.goto_reference,
+      ),
+
+    // RSR - Run Subroutine
+
+    // @RSR{,c,d,r lab | lab} .
+    rsr: ($) =>
+      seq(
+        alias(/[Rr][Ss][Rr]/, $.call),
+        optional(
+          seq(",", choice($.address, alias($._short_address, $.address))),
+        ),
+        " ",
+        $._rer_goto,
+        " ",
       ),
   },
 });

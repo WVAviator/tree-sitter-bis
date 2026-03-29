@@ -1071,10 +1071,6 @@
           },
           {
             "type": "PATTERN",
-            "value": "[rR][sS][rR]"
-          },
-          {
-            "type": "PATTERN",
             "value": "[rR][tT][nN]"
           },
           {
@@ -1322,6 +1318,10 @@
         {
           "type": "SYMBOL",
           "name": "rer"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "rsr"
         },
         {
           "type": "SYMBOL",
@@ -6728,6 +6728,67 @@
       },
       "named": true,
       "value": "goto_reference"
+    },
+    "rsr": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[Rr][Ss][Rr]"
+          },
+          "named": true,
+          "value": "call"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": ","
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "address"
+                    },
+                    {
+                      "type": "ALIAS",
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "_short_address"
+                      },
+                      "named": true,
+                      "value": "address"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": " "
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_rer_goto"
+        },
+        {
+          "type": "STRING",
+          "value": " "
+        }
+      ]
     }
   },
   "extras": [
