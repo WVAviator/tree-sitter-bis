@@ -1,0 +1,40 @@
+==============
+LCV Statement
+==============
+
+@    LDV,P <msg> LCV,LIN1 T@ <msg> '  '/' ' GTO LIN-0 .
+
+---
+
+(source_file
+  (statement
+    (stmt_prefix)
+    (ldv
+      (call)
+      (option)
+      (named_variable)
+    )
+    (lcv
+      (call)
+      (goto_reference
+        (keyword)
+        line_count: (numeric_literal)
+      )
+      (option
+        (line_type)
+      )
+      (named_variable)
+      (string_literal)
+      (string_literal)
+    )
+    (gto
+      (call)
+      (goto_reference
+        (keyword)
+        (operator)
+        line_count: (numeric_literal)
+      )
+    )
+    (stmt_terminator)
+  )
+)

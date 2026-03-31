@@ -35,6 +35,7 @@ const IMPLEMENTED_CALLS = new Set([
   "RDL",
   "RER",
   "RSR",
+  "LCV",
 ]);
 
 function get_calls() {
@@ -144,6 +145,7 @@ export default grammar({
         $.rdl,
         $.rer,
         $.rsr,
+        $.lcv,
         $._generic_statement,
       ),
 
@@ -202,7 +204,7 @@ export default grammar({
     character: ($) => token(prec(-1, /[^\s.,]/)),
 
     line_type: ($) =>
-      token(choice("|", "*", ".", " ", /[A-Za-z]/, /\$[TtAaBb]/)),
+      token(choice("|", "*", ".", " ", "@", /[A-Za-z]/, /\$[TtAaBb]/)),
 
     // Essentially a RHS to an expression
     _value_definition: ($) =>
@@ -880,19 +882,19 @@ export default grammar({
           seq(",", choice($.address, alias($._short_address, $.address))),
         ),
         " ",
-        $._rer_goto,
+        alias($._rer_goto, $.goto_reference),
         optional(seq(",", repeat1($._rer_option))),
         " ",
       ),
 
     _rer_option: ($) => alias(/[CcJjHhPp]/, $.option),
     _rer_goto: ($) =>
-      alias(
-        choice(
-          /\d{1,4}/,
-          seq(/[Ll][Ii][Nn]/, field("line_count", $.numeric_literal)),
+      choice(
+        /\d{1,4}/,
+        seq(
+          alias(/[Ll][Ii][Nn]/, $.keyword),
+          field("line_count", $.numeric_literal),
         ),
-        $.goto_reference,
       ),
 
     // RSR - Run Subroutine
@@ -905,8 +907,39 @@ export default grammar({
           seq(",", choice($.address, alias($._short_address, $.address))),
         ),
         " ",
-        $._rer_goto,
+        alias($._rer_goto, $.goto_reference),
         " ",
+      ),
+
+    // LCV - Locate and Change Variable
+
+    // @LCV[,lab] o v tgtstr[/replstr vpos,voccs] .
+    lcv: ($) =>
+      seq(
+        alias(/[Ll][Cc][Vv]/, $.call),
+        optional(seq(",", alias($._rer_goto, $.goto_reference))),
+        " ",
+        choice(repeat1(alias($._lcv_option, $.option)), /''/),
+        " ",
+        $._variable_definition,
+        " ",
+        $._value_definition,
+        optional(seq("/", $._value_definition)),
+        " ",
+        optional(
+          seq(
+            $._variable_definition,
+            optional(seq(",", $._variable_definition)),
+            " ",
+          ),
+        ),
+      ),
+
+    _lcv_option: ($) =>
+      choice(
+        /[CcMmNn]/,
+        seq(/[Bb]/, choice($.numeric_literal, $.numeric_range, $._variable)),
+        seq(/[LlTt]/, $.line_type),
       ),
   },
 });

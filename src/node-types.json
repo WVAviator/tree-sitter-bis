@@ -255,6 +255,10 @@
           "named": true
         },
         {
+          "type": "lcv",
+          "named": true
+        },
+        {
           "type": "ldv",
           "named": true
         },
@@ -901,6 +905,77 @@
     }
   },
   {
+    "type": "lcv",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "array_index",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        },
+        {
+          "type": "constant",
+          "named": true
+        },
+        {
+          "type": "env_variable",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "global_variable",
+          "named": true
+        },
+        {
+          "type": "goto_reference",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "named_variable",
+          "named": true
+        },
+        {
+          "type": "numbered_variable",
+          "named": true
+        },
+        {
+          "type": "option",
+          "named": true
+        },
+        {
+          "type": "reserved_word",
+          "named": true
+        },
+        {
+          "type": "string_literal",
+          "named": true
+        },
+        {
+          "type": "substring",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "ldv",
     "named": true,
     "fields": {},
@@ -1132,18 +1207,7 @@
   {
     "type": "rer",
     "named": true,
-    "fields": {
-      "line_count": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "goto_reference",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": true,
@@ -1267,18 +1331,7 @@
   {
     "type": "rsr",
     "named": true,
-    "fields": {
-      "line_count": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "goto_reference",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": true,
@@ -1679,6 +1732,10 @@
         },
         {
           "type": "label",
+          "named": true
+        },
+        {
+          "type": "lcv",
           "named": true
         },
         {
