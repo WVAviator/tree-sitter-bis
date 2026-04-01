@@ -1,0 +1,39 @@
+==============
+LNY Statement
+==============
+
+@    LNY,'GONE_USER_TBL',<gln>,1,1 .                Yank into Buffer 1
+@    LNY,-0,6,999 .                             Yank flight legs
+
+---
+
+(source_file
+  (statement
+    (stmt_prefix)
+    (lny
+      (call)
+      (address
+        report: (string_literal)
+      )
+      line_number: (named_variable)
+      line_count: (numeric_literal)
+      buffer_label: (numeric_literal)
+    )
+    (stmt_terminator)
+    (comment)
+  )
+
+  (statement
+    (stmt_prefix)
+    (lny
+      (call)
+      (address
+        report: (report_reference)
+      )
+      line_number: (numeric_literal)
+      line_count: (numeric_literal)
+    )
+    (stmt_terminator)
+    (comment)
+  )
+)

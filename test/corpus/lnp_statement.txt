@@ -1,0 +1,43 @@
+==============
+LNP Statement
+==============
+
+@    LNP,030,B,<rid>,<lln> .                        Put record at end of file
+@    LNP,'JMP_INFO_HIS',<jln>,2 .                   Put at end of History
+
+---
+
+(source_file
+  (statement
+    (stmt_prefix)
+
+    (lnp
+      (call)
+      (address
+        cabinet: (numeric_literal)
+        drawer: (identifier)
+        report: (named_variable)
+      )
+      line_before: (named_variable)
+    )
+
+    (stmt_terminator)
+    (comment)
+  )
+
+  (statement
+    (stmt_prefix)
+
+    (lnp
+      (call)
+      (address
+        report: (string_literal)
+      )
+      line_before: (named_variable)
+      buffer_label: (numeric_literal)
+    )
+
+    (stmt_terminator)
+    (comment)
+  )
+)

@@ -36,6 +36,8 @@ const IMPLEMENTED_CALLS = new Set([
   "RER",
   "RSR",
   "LCV",
+  "LNY",
+  "LNP",
 ]);
 
 function get_calls() {
@@ -146,6 +148,8 @@ export default grammar({
         $.rer,
         $.rsr,
         $.lcv,
+        $.lny,
+        $.lnp,
         $._generic_statement,
       ),
 
@@ -218,6 +222,9 @@ export default grammar({
           $.constant,
         ),
       ),
+
+    _integer_value: ($) =>
+      choice($.numeric_literal, $._variable, $.reserved_word, $.constant),
 
     expression: ($) =>
       seq(
@@ -940,6 +947,41 @@ export default grammar({
         /[CcMmNn]/,
         seq(/[Bb]/, choice($.numeric_literal, $.numeric_range, $._variable)),
         seq(/[LlTt]/, $.line_type),
+      ),
+
+    // LNY - Yank Line
+
+    // @LNY,c,d,r,l[,q,b] .
+    lny: ($) =>
+      seq(
+        alias(/[Ll][Nn][Yy]/, $.call),
+        ",",
+        $.address,
+        ",",
+        delimited_content(
+          ",",
+          field("line_number", $._integer_value),
+          field("line_count", $._integer_value),
+          field("buffer_label", $._integer_value),
+        ),
+        " ",
+      ),
+
+    // LNP - Put Line
+
+    // @LNP,c,d,r,lb4[,b] .
+    lnp: ($) =>
+      seq(
+        alias(/[Ll][Nn][Pp]/, $.call),
+        ",",
+        $.address,
+        ",",
+        delimited_content(
+          ",",
+          field("line_before", $._integer_value),
+          field("buffer_label", $._integer_value),
+        ),
+        " ",
       ),
   },
 });

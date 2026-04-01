@@ -263,6 +263,14 @@
           "named": true
         },
         {
+          "type": "lnp",
+          "named": true
+        },
+        {
+          "type": "lny",
+          "named": true
+        },
+        {
           "type": "rdl",
           "named": true
         },
@@ -1051,6 +1059,216 @@
     }
   },
   {
+    "type": "lnp",
+    "named": true,
+    "fields": {
+      "buffer_label": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "constant",
+            "named": true
+          },
+          {
+            "type": "env_variable",
+            "named": true
+          },
+          {
+            "type": "global_variable",
+            "named": true
+          },
+          {
+            "type": "named_variable",
+            "named": true
+          },
+          {
+            "type": "numbered_variable",
+            "named": true
+          },
+          {
+            "type": "numeric_literal",
+            "named": true
+          },
+          {
+            "type": "reserved_word",
+            "named": true
+          }
+        ]
+      },
+      "line_before": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "constant",
+            "named": true
+          },
+          {
+            "type": "env_variable",
+            "named": true
+          },
+          {
+            "type": "global_variable",
+            "named": true
+          },
+          {
+            "type": "named_variable",
+            "named": true
+          },
+          {
+            "type": "numbered_variable",
+            "named": true
+          },
+          {
+            "type": "numeric_literal",
+            "named": true
+          },
+          {
+            "type": "reserved_word",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "address",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "lny",
+    "named": true,
+    "fields": {
+      "buffer_label": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "constant",
+            "named": true
+          },
+          {
+            "type": "env_variable",
+            "named": true
+          },
+          {
+            "type": "global_variable",
+            "named": true
+          },
+          {
+            "type": "named_variable",
+            "named": true
+          },
+          {
+            "type": "numbered_variable",
+            "named": true
+          },
+          {
+            "type": "numeric_literal",
+            "named": true
+          },
+          {
+            "type": "reserved_word",
+            "named": true
+          }
+        ]
+      },
+      "line_count": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "constant",
+            "named": true
+          },
+          {
+            "type": "env_variable",
+            "named": true
+          },
+          {
+            "type": "global_variable",
+            "named": true
+          },
+          {
+            "type": "named_variable",
+            "named": true
+          },
+          {
+            "type": "numbered_variable",
+            "named": true
+          },
+          {
+            "type": "numeric_literal",
+            "named": true
+          },
+          {
+            "type": "reserved_word",
+            "named": true
+          }
+        ]
+      },
+      "line_number": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "constant",
+            "named": true
+          },
+          {
+            "type": "env_variable",
+            "named": true
+          },
+          {
+            "type": "global_variable",
+            "named": true
+          },
+          {
+            "type": "named_variable",
+            "named": true
+          },
+          {
+            "type": "numbered_variable",
+            "named": true
+          },
+          {
+            "type": "numeric_literal",
+            "named": true
+          },
+          {
+            "type": "reserved_word",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "address",
+          "named": true
+        },
+        {
+          "type": "call",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "numeric_range",
     "named": true,
     "fields": {},
@@ -1740,6 +1958,14 @@
         },
         {
           "type": "ldv",
+          "named": true
+        },
+        {
+          "type": "lnp",
+          "named": true
+        },
+        {
+          "type": "lny",
           "named": true
         },
         {
