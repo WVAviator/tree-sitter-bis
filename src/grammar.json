@@ -807,10 +807,6 @@
           },
           {
             "type": "PATTERN",
-            "value": "[lL][nN][aA]"
-          },
-          {
-            "type": "PATTERN",
             "value": "[lL][nN][gG]"
           },
           {
@@ -1322,6 +1318,10 @@
         {
           "type": "SYMBOL",
           "name": "lnp"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "lna"
         },
         {
           "type": "SYMBOL",
@@ -7171,6 +7171,104 @@
                         "type": "SYMBOL",
                         "name": "_integer_value"
                       }
+                    }
+                  ]
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": " "
+        }
+      ]
+    },
+    "lna": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "[Ll][Nn][Aa]"
+          },
+          "named": true,
+          "value": "call"
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "SYMBOL",
+          "name": "address"
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "line_number",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_integer_value"
+              }
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": ","
+                    },
+                    {
+                      "type": "SEQ",
+                      "members": [
+                        {
+                          "type": "FIELD",
+                          "name": "line_count",
+                          "content": {
+                            "type": "SYMBOL",
+                            "name": "_integer_value"
+                          }
+                        },
+                        {
+                          "type": "CHOICE",
+                          "members": [
+                            {
+                              "type": "SEQ",
+                              "members": [
+                                {
+                                  "type": "STRING",
+                                  "value": ","
+                                },
+                                {
+                                  "type": "FIELD",
+                                  "name": "buffer_label",
+                                  "content": {
+                                    "type": "SYMBOL",
+                                    "name": "_integer_value"
+                                  }
+                                }
+                              ]
+                            },
+                            {
+                              "type": "BLANK"
+                            }
+                          ]
+                        }
+                      ]
                     }
                   ]
                 },

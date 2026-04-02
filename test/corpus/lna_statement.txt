@@ -1,0 +1,25 @@
+==============
+LNA Statement
+==============
+
+@lna,0,b,2,12,3,2 .
+
+---
+
+(source_file
+  (statement
+    (stmt_prefix)
+    (lna
+      (call)
+      (address
+        cabinet: (numeric_literal)
+        drawer: (identifier)
+        report: (numeric_literal)
+      )
+      line_number: (numeric_literal)
+      line_count: (numeric_literal)
+      buffer_label: (numeric_literal)
+    )
+    (stmt_terminator)
+  )
+)

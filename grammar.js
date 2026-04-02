@@ -38,6 +38,7 @@ const IMPLEMENTED_CALLS = new Set([
   "LCV",
   "LNY",
   "LNP",
+  "LNA",
 ]);
 
 function get_calls() {
@@ -150,6 +151,7 @@ export default grammar({
         $.lcv,
         $.lny,
         $.lnp,
+        $.lna,
         $._generic_statement,
       ),
 
@@ -979,6 +981,24 @@ export default grammar({
         delimited_content(
           ",",
           field("line_before", $._integer_value),
+          field("buffer_label", $._integer_value),
+        ),
+        " ",
+      ),
+
+    // LNA - Append Line
+
+    // @LNA,c,d,r,l[,q,b] .
+    lna: ($) =>
+      seq(
+        alias(/[Ll][Nn][Aa]/, $.call),
+        ",",
+        $.address,
+        ",",
+        delimited_content(
+          ",",
+          field("line_number", $._integer_value),
+          field("line_count", $._integer_value),
           field("buffer_label", $._integer_value),
         ),
         " ",
