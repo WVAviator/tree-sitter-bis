@@ -2,7 +2,7 @@
 LNP Statement
 ==============
 
-@    LNP,030,B,<rid>,<lln> .                        Put record at end of file
+@    LNP,030,B,<rid>,<<lln>> .                        Put record at end of file
 @    LNP,'JMP_INFO_HIS',<jln>,2 .                   Put at end of History
 
 ---

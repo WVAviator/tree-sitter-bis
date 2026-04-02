@@ -239,10 +239,11 @@ export default grammar({
 
     // Variables
 
-    named_variable: ($) => token(seq("<", /[^>]{1,12}/, ">")),
+    named_variable: ($) =>
+      token(choice(seq("<", /[^>]{1,12}/, ">"), seq("<<", /[^>]{1,12}/, ">>"))),
     global_variable: ($) => token(seq("<*", /[^>]{1,12}/, ">")),
     env_variable: ($) => token(seq("<$", /[^>]{1,12}/, ">")),
-    numbered_variable: ($) => token(seq(/[Vv]/, /\d{1,3}/)),
+    numbered_variable: ($) => token(seq(/[Vv]/, optional(/[Vv]/), /\d{1,3}/)),
 
     type: ($) =>
       token(prec(2, seq(/[afhiosAFHIOS]/, /\d{1,3}/, optional(/\.\d{1,2}/)))),

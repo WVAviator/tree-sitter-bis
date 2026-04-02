@@ -1844,19 +1844,41 @@
     "named_variable": {
       "type": "TOKEN",
       "content": {
-        "type": "SEQ",
+        "type": "CHOICE",
         "members": [
           {
-            "type": "STRING",
-            "value": "<"
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "<"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[^>]{1,12}"
+              },
+              {
+                "type": "STRING",
+                "value": ">"
+              }
+            ]
           },
           {
-            "type": "PATTERN",
-            "value": "[^>]{1,12}"
-          },
-          {
-            "type": "STRING",
-            "value": ">"
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "<<"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[^>]{1,12}"
+              },
+              {
+                "type": "STRING",
+                "value": ">>"
+              }
+            ]
           }
         ]
       }
@@ -1909,6 +1931,18 @@
           {
             "type": "PATTERN",
             "value": "[Vv]"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "[Vv]"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           },
           {
             "type": "PATTERN",
